@@ -12,7 +12,7 @@
 ### Data:
 The paper for the replication study was found at the *[American Economic Association](https://www.aeaweb.org/articles?id=10.1257/aer.100.3.905)* and the data was obtained from the *[Open ICPSR](https://www.openicpsr.org/openicpsr/project/112360/version/V1/view)* in the form of text files. The data describes the residential and commercial real estate in Allegheny County in Pennsylvania post 1995 <br/>
 
-### Dependencies'
+### Dependencies:
 For our projects, we had to install one package ‘MASS’ . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
 
 <pre>
