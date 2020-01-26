@@ -9,6 +9,8 @@
 4. [Pradeep Prabhakar](https://github.com/Pradeepprabhakar92) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-6202-5607) 
 5. [Sreeja Vishaly Manohar](https://github.com/Sreejavm) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-7566-5336 )
 
+### Data:
+The paper for the replication study was found at the *[American Economic Association](https://www.aeaweb.org/articles?id=10.1257/aer.100.3.905)* and the data was obtained from the *[Open ICPSR](https://www.openicpsr.org/openicpsr/project/112360/version/V1/view)* in the form of text files. The data describes the residential and commercial real estate in Allegheny County in Pennsylvania post 1995 <br/>
 
 This repository will contain the team's work required for the project check-ins as well as the final submission.
 
