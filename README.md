@@ -1,5 +1,5 @@
 
-## Title: A replication study to estimate the production function for housing
+## A replication study to estimate the production function for housing
 
 ### Contributors: 
 
