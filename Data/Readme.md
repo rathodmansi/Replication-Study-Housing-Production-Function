@@ -16,7 +16,6 @@ This file contains the commercial real estate data for Pittsburgh post 1995. It 
 ### Explaination of Data:
 <pre>
 <b>Pittsburgh_post1995.txt:</b>
-
 ObjectID : Index representing unique residential real estate units built in Pittsburgh
 pland    : Price of the land on which the house is built
 v        : Value per unit of land
