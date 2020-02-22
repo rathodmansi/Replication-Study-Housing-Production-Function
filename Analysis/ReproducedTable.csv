@@ -1,0 +1,7 @@
+﻿,Log_Linear,Linear,Quadratic,Cubic,Gaussian_Generalized_Linear_Model,Gaussian_Generalized_Log_Linear_Model,Gradient_Descent_Log_Linear_Model
+v,,0.1394,0.1685,0.1622,0.1526,,
+v2,,,-0.0002,-0.0001,,,
+v3,,,,0.00000039,,,
+Constant,-1.605,,,,,-1.631603,-1.631195
+log(v),0.909,,,,,0.918632,0.918491
+N,6234,6234,6234,6234,6234,6234,6234

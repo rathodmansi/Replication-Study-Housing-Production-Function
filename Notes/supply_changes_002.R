@@ -85,7 +85,7 @@ glm.loglin = glm(logpland ~ logv)
 #Log Linear model with a different Gradient Descent Loss Function
 thetaValues = gradientDescentLinearModel(logv, logpland, 0.1, 1000)
 
-
+summary(glm.loglin)
 ### Non-parametric estimation of r(v)
 
 gkern.deriv = glkerns(v, pland, deriv=1,n.out=300, hetero=TRUE,bandwidth=v.sd*1.1)

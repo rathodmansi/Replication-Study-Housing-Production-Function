@@ -38,6 +38,13 @@ In the case of different loss function, we wrote a function code to implement lo
 
 
 # Results
+``` {r, echo = FALSE, message = FALSE, warnings = FALSE, results = 'asis'}
+library(knitr)
+table <- read.csv('./ReproducedTable.csv', header = T, na.strings = '__')
+colnames(table) = gsub("_", " ", colnames(table))
+table[is.na(table)]<- " "
+kable(table, caption = "Table")
+```
 
 # Conclusion
 
