@@ -1,0 +1,33 @@
+---
+title: "[Re] A New Approach to Estimating the Production Function for Housing"
+author: "Aniruddha Dutta, Mansi Rathod, Mayur Gupta, Pradeep Prabhakar, Sreeja Vishaly Manohar"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: bookdown::word_document2
+bibliography: reference.bibtex
+---
+
+``` {r setup, echo = FALSE, message = FALSE, warnings = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE,
+  comment = "#>",
+  fig.path = "../figures")
+```
+
+A reference implementation of:
+
+> Epple, Dennis, Brett Gordon, and Holger Sieg. 2010. *"A New Approach to Estimating the Production Function for Housing."* American Economic Review, 100 (3): 905-24.DOI: 10.1257/aer.100.3.905
+
+# Introduction
+
+# Methods
+
+# Results
+
+# Conclusion
+
+# References
+
+

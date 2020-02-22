@@ -3,7 +3,7 @@
 
 ### Contributors: 
 
-1. [Anirudha Dutta](https://github.com/aniruddha29) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-3905-946X)
+1. [Aniruddha Dutta](https://github.com/aniruddha29) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-3905-946X)
 2. [Mansi Rathod](https://github.com/rathodmansi) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)]( https://orcid.org/0000-0001-7089-4300 )
 3. [Mayur Gupta](https://github.com/mayurgpt07) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-9139-5519) 
 4. [Pradeep Prabhakar](https://github.com/Pradeepprabhakar92) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-6202-5607) 
