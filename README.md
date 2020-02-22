@@ -44,6 +44,7 @@ For our projects, we had to install one package ‘MASS’ . Below is the comple
  cli           2.0.1    2020-01-08 [1] CRAN (R 3.6.0)
  crayon        1.3.4    2017-09-16 [1] CRAN (R 3.6.0)
  desc          1.2.0    2018-05-01 [1] CRAN (R 3.6.0)
+ deSolve     * 1.27.1   2020-01-02 [1] CRAN (R 3.6.0)
  devtools      2.2.1    2019-09-24 [1] CRAN (R 3.6.0)
  digest        0.6.23   2019-11-23 [1] CRAN (R 3.6.0)
  ellipsis      0.3.0    2019-09-20 [1] CRAN (R 3.6.0)
@@ -54,6 +55,7 @@ For our projects, we had to install one package ‘MASS’ . Below is the comple
  magrittr      1.5      2014-11-22 [1] CRAN (R 3.6.0)
  MASS        * 7.3-51.5 2019-12-20 [1] CRAN (R 3.6.0)
  memoise       1.1.0    2017-04-21 [1] CRAN (R 3.6.0)
+ packrat       0.5.0    2018-11-14 [1] CRAN (R 3.6.0)
  pkgbuild      1.0.6    2019-10-09 [1] CRAN (R 3.6.0)
  pkgload       1.0.2    2018-10-29 [1] CRAN (R 3.6.0)
  prettyunits   1.1.0    2020-01-09 [1] CRAN (R 3.6.0)
@@ -74,8 +76,6 @@ For our projects, we had to install one package ‘MASS’ . Below is the comple
 <pre>
 [1] /Library/Frameworks/R.framework/Versions/3.6/Resources/library
 </pre>
-
-
 
 ### Contributing:
 We welcome contributions from everyone. Before you get started, please see our contributor guidelines. Please note that this project is released with a [Contributor Code of Conduct](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its [terms](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/blob/master/CONTRIBUTING.md).
