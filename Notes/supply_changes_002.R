@@ -128,7 +128,7 @@ regs = data.frame("Log-Linear"=lm.loglin$fitted.values, "Linear"=log(lm.lin$fitt
 
 matplot(cbind(logv,logv,logv,logv,logv,logv,logv), regs, col=1:ncol(regs), lty=1:ncol(regs),lwd=c(2,2,2,2), type="l", 
         main="Fitted Regressions for r(v)", xlab="v", ylab="p_l", xlim=c(-2,5), ylim=c(-3,3.5))
-legend(3.3, -0.5, names(regs), col=1:ncol(regs), lty=1:ncol(regs))
+legend(-2, 3.5, names(regs), col=1:ncol(regs), lty=1:ncol(regs))
 
 #######################################################
 ### Derive supply functions for each
