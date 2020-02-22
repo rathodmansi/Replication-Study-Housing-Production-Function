@@ -11,6 +11,7 @@
 ################################################################
 
 library(MASS)
+library(Bolstad)
 
 ####################################################################
 # K - Order of the polynomial to use
@@ -41,14 +42,14 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
     if(INST.DUMMY){
       qvec = cbind(qvec, Q.dummy)
     }
-    alpha.stage.lm <- lm(x ~ qvec[,2:P])
+    alpha.stage.lm <- bayes.lm(x ~ qvec[,2:P])
   }else{
     qvec = matrix(1, nrow=N, ncol=P.cont)
     for(i in 1:K){ qvec[,i] = q^{i} }
     if(INST.DUMMY){
       qvec = cbind(qvec, Q.dummy)
     }
-    alpha.stage.lm <- lm(x ~ qvec - 1)
+    alpha.stage.lm <- bayes.lm(x ~ qvec - 1)
   }
   
   #summary(alpha.stage.lm)
@@ -65,9 +66,9 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
   for(i in 1:K){ W[,i] = w^i }
   
   if(BASE.EQ.CONSTANT){
-    gamma.stage.lm <- lm(y ~ W) 
+    gamma.stage.lm <- bayes.lm(y ~ W) 
   }else{
-    gamma.stage.lm <- lm(y ~ W-1)  ### No constant b/c model says that 0 = r(0)
+    gamma.stage.lm <- bayes.lm(y ~ W-1)  ### No constant b/c model says that 0 = r(0)
   }
   
   #summary(gamma.stage.lm)
@@ -82,9 +83,9 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
   for(i in 1:(K+1)){ WW[,i] = w^i}
   
   if(BASE.EQ.CONSTANT){
-    delta.stage.lm <- lm(xy ~ WW)  
+    delta.stage.lm <- bayes.lm(xy ~ WW)  
   }else{
-    delta.stage.lm <- lm(xy ~ WW - 1)   	  # DO NOT allow for a constant
+    delta.stage.lm <- bayes.lm(xy ~ WW - 1)   	  # DO NOT allow for a constant
   }
   #summary(delta.stage.lm)
   delta = delta.stage.lm$coefficients   ## Keep all the coefficients, including constant
