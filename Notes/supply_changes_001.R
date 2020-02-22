@@ -14,14 +14,13 @@ library(splines)
 ## library(odesolve) - This function is no longer maintained by CRAN
 library(deSolve)
 library(lokern)
-source("./Notes/Gradient_Descent_001.R")
 
 #######################################################
 ### Read in the data
 #######################################################
-getwd()
+
 # Just pland, v, and lotarea
-data = read.csv("./Data/Pittsburgh_post1995.txt", header=TRUE)
+data = read.csv("Pittsburgh_post1995.txt", header=TRUE)
 N = dim(data)[1]
 
 v = data$v
@@ -40,11 +39,7 @@ v = sorted$x
 v.full = v
 pland.full = pland
 
-#Calculate 1 and 99 percentile for v
-percentile <- quantile(data$v, probs = c(0.01,0.99))
-
-# The 99 percentile = 144.4683 and 1 percentile = 0.923818
-goodv = (((v.full < percentile[2])*(v > percentile[1])) == 1)
+goodv = (((v.full < 65.9924)*(v > 0.9282)) == 1)
 v = v.full[goodv]
 pland = pland.full[goodv]
 lotarea = lotarea[goodv]
@@ -63,7 +58,7 @@ logv.sd = sqrt(var(logv))
 remove(data)
 
 plot(logv, logpland, main="Value per Unit Land vs. Land Value per Unit Land\nBaltimore City Residential Properties", 
-			xlab="log(v)", ylab="log(pland)") #,xlim=c(-2,5), ylim=c(-3,3.5))
+     xlab="log(v)", ylab="log(pland)") #,xlim=c(-2,5), ylim=c(-3,3.5))
 
 #######################################################
 ### Estimate the regressions
@@ -76,13 +71,7 @@ lm.lin = lm(pland ~ v - 1)
 lm.quad = lm(pland ~ v + v2 - 1)
 lm.cub = lm(pland ~ v + v2 + v3 - 1)
 lm.quart = lm(pland ~ v + v2 + v3 + v4 - 1)
-glm.lin = glm(pland ~ v - 1)
-glm.loglin = glm(logpland ~ logv)
-thetaValues = gradientDescentLinearModel(logv, logpland, 0.1, 1000)
 
-summary(lm.loglin)
-summary(glm.loglin)
-summary(glm.llog)
 ### Non-parametric estimation of r(v)
 
 gkern.deriv = glkerns(v, pland, deriv=1,n.out=300, hetero=TRUE,bandwidth=v.sd*1.1)
@@ -104,17 +93,12 @@ lines(logv, lm.loglin$fitted.values, col="red")
 lines(logv, log(lm.lin$fitted.values), col="blue")
 lines(logv, log(lm.quad$fitted.values), col="green")
 lines(logv, log(lm.cub$fitted.values), col="orange")
-lines(logv, glm.loglin$fitted.values)
-abline(coef=thetaValues)
-
-predictedValuesGD <- calculatePredictionValues(logv, logpland, thetaValues[2], thetaValues[1])
 
 regs = data.frame("Log-Linear"=lm.loglin$fitted.values, "Linear"=log(lm.lin$fitted.values),"Quadratic"=log(lm.quad$fitted.values),
-			"Cubic"=log(lm.cub$fitted.values), "Log Kernel"=gkern.log.fitted$y, 'Gaussian Generalized Log Linear Model'=glm.loglin$fitted.values,
-			'Gradient Descent Log Linear Model'=predictedValuesGD)
+                  "Cubic"=log(lm.cub$fitted.values), "Log Kernel"=gkern.log.fitted$y)
 
-matplot(cbind(logv,logv,logv,logv,logv,logv,logv), regs, col=1:ncol(regs), lty=1:ncol(regs),lwd=c(2,2,2,2), type="l", 
-	  main="Fitted Regressions for r(v)", xlab="v", ylab="p_l", xlim=c(-2,5), ylim=c(-3,3.5))
+matplot(cbind(logv,logv,logv,logv,logv), regs, col=1:ncol(regs), lty=1:ncol(regs),lwd=c(2,2,2,2), type="l", 
+        main="Fitted Regressions for r(v)", xlab="v", ylab="p_l", xlim=c(-2,5), ylim=c(-3,3.5))
 legend(3.3, -0.5, names(regs), col=1:ncol(regs), lty=1:ncol(regs))
 
 #######################################################
@@ -161,7 +145,7 @@ rprime = interpSpline(gkern.deriv$x.out,gkern.deriv$est,na.action=na.omit,bSplin
 ## calc.supply.deriv = function(t,y, params) list((y/t)*((1/(predict(rprime,y*t))$y)-1))
 calc.supply.deriv = function(pgrid.kern,xstart, params) list((xstart/pgrid.kern)*((1/(predict(rprime,xstart*pgrid.kern))$x)-1))
 ##dd = function(pgrid.kern,xstart, params)  ## ??
-  
+
 ## list((xstart/pgrid.kern)*((1/(predict(rprime,xstart*pgrid.kern))$x)-1)) ## ??
 
 xstart = c(1)
@@ -173,7 +157,7 @@ s.kern = data.frame(s=ode.out[,2],p=ode.out[,1])
 ### Plot all the supply functions
 
 s.funcs = data.frame("Log-Linear"=s.loglin,"Linear"=s.lin,"Quadratic"=s.quad,
-				"Cubic"=s.cub, "Kernel"=s.kern$s)
+                     "Cubic"=s.cub, "Kernel"=s.kern$s)
 p.grids = cbind(pgrid,pgrid,p.quad,p.cub,s.kern$p)
 
 s.lin.range = range(s.lin*pgrid)
@@ -183,7 +167,7 @@ s.cub.range = range(s.cub*p.cub)
 s.kern.range = range(s.kern$s*s.kern$p)
 
 matplot(s.funcs,p.grids,col=1:ncol(s.funcs), lty=1:ncol(s.funcs),lwd=c(2,2,2,2), type="l", 
-	  main="Supply Functions", xlab="Supply", ylab="Price",xlim=c(0,39))
+        main="Supply Functions", xlab="Supply", ylab="Price",xlim=c(0,39))
 legend(30, 1.5, names(s.funcs), col=1:ncol(s.funcs), lty=1:ncol(s.funcs))
 
 
@@ -195,13 +179,13 @@ legend(30, 1.5, names(s.funcs), col=1:ncol(s.funcs), lty=1:ncol(s.funcs))
 r.ll.iv = c(-1.61289,0.91191)
 
 calc.loglin.supply = function(grid, r){
-	a = as.numeric(exp(r[1])*r[2])
-	b = as.numeric(r[2] - 1)
-	ec = exp(-a/b)
-	if(ec < max(grid)){
-		warning("Upper bound on price grid exceeds allowed price bound")
-	}
-	return((1/grid)*((1 + (b/a)*log(grid))^(1/b)))
+  a = as.numeric(exp(r[1])*r[2])
+  b = as.numeric(r[2] - 1)
+  ec = exp(-a/b)
+  if(ec < max(grid)){
+    warning("Upper bound on price grid exceeds allowed price bound")
+  }
+  return((1/grid)*((1 + (b/a)*log(grid))^(1/b)))
 }
 
 s.ll.iv = calc.loglin.supply(pgrid,r.ll.iv)
@@ -218,8 +202,8 @@ plot.with.legend = function(x,y,col=1:ncol(x),lty=1:ncol(x),xlim=NULL,ylim=NULL,
 
 ## Usual Code
 plot.with.legend(s.alt.funcs, pgrids, titles=names(s.alt.funcs),
-		main="Alternative Supply Functions for log-linear r(v)",
-		lposx=30, lposy=1.2,xlim=c(0,40),ylim=c(1,2.1))
+                 main="Alternative Supply Functions for log-linear r(v)",
+                 lposx=30, lposy=1.2,xlim=c(0,40),ylim=c(1,2.1))
 
 plot(s.ll.iv,pgrid,type="l",xlim=c(0,39))
 lines(s.loglin,pgrid,col="red")
@@ -231,20 +215,20 @@ lines(s.kern$s,s.kern$p,col="blue")
 r.cub.iv = c(0.2363,-0.000765,-0.00000767)
 
 calc.cubic.supply = function(vgrid,r){
-	p = (vgrid*r[1])*exp(2*r[2]*(vgrid-1) + 1.5*r[3]*(vgrid^2 - 1))
-	s = vgrid/p
-	return(data.frame(p=p,s=s))
+  p = (vgrid*r[1])*exp(2*r[2]*(vgrid-1) + 1.5*r[3]*(vgrid^2 - 1))
+  s = vgrid/p
+  return(data.frame(p=p,s=s))
 }
 
 s.cub.iv = calc.cubic.supply(vseq,r.cub.iv)
 
 s.alt.funcs = data.frame("Regular"=s.cub, "Small V"=s.cub.smallv$s,
-				 "Single-Family"=s.cub.sf$s, "Post95"=s.cub.post95$s,
-				 "SF-Post95"=s.cub.postsf$s,"IV"=s.cub.iv$s)
+                         "Single-Family"=s.cub.sf$s, "Post95"=s.cub.post95$s,
+                         "SF-Post95"=s.cub.postsf$s,"IV"=s.cub.iv$s)
 pgrids = cbind(p.cub,s.cub.smallv$p,s.cub.sf$p,s.cub.post95$p,s.cub.postsf$p, s.cub.iv$p)
 
 plot.with.legend(s.alt.funcs, pgrids, titles=names(s.alt.funcs),main="Alternative Supply Functions for Cubic(v)",
-			lposx=28, lposy=1.3,xlim=c(0,40),ylim=c(1,2.4))
+                 lposx=28, lposy=1.3,xlim=c(0,40),ylim=c(1,2.4))
 
 
 #######################################################
@@ -277,7 +261,7 @@ prod.funcs = data.frame("Log-Linear"=s.loglin,"Linear"=s.lin,"Quadratic"=s.quad,
 m.grids = cbind(m.loglin, m.lin, m.quad, m.cub,m.kernel)
 
 matplot(m.grids,prod.funcs, col=1:ncol(prod.funcs), lty=1:ncol(prod.funcs),lwd=c(2,2,2,2), type="l", 
-	  main="Production Functions", xlab="m = (M/L)", ylab="Output", xlim=c(0,80), ylim=c(0,42))
+        main="Production Functions", xlab="m = (M/L)", ylab="Output", xlim=c(0,80), ylim=c(0,42))
 legend(60, 12, names(prod.funcs), col=1:ncol(prod.funcs), lty=1:ncol(prod.funcs))
 
 
@@ -321,7 +305,7 @@ s.cub.elas = calc.elas(pgrid,s.cub)
 s.kern.elas = calc.elas(s.kern$p,s.kern$s)
 
 s.elas = list("Linear"=s.lin.elas, "Log-linear"=s.loglin.elas, "Quad"=s.quad.elas,
-		  "Cubic"=s.cub.elas, "Kernel"=s.kern.elas)
+              "Cubic"=s.cub.elas, "Kernel"=s.kern.elas)
 sapply(s.elas,mean)
 sapply(s.elas,range)
 sapply(s.elas,sd)
@@ -329,12 +313,12 @@ sapply(s.elas,sd)
 ### Calculate demand elasticities
 
 p.inv = function(v,s.interp){	
-	pstar = rep(NA,length(v))
-	s.inv = function(p,v,sfunc){ ((predict(sfunc,p))$y*p - v) }
-	for(i in 1:length(v)){
-		pstar[i] = (uniroot(s.inv,c(0.0001,100),v=v[i],sfunc=s.interp))$root
-	}
-	return(pstar)
+  pstar = rep(NA,length(v))
+  s.inv = function(p,v,sfunc){ ((predict(sfunc,p))$y*p - v) }
+  for(i in 1:length(v)){
+    pstar[i] = (uniroot(s.inv,c(0.0001,100),v=v[i],sfunc=s.interp))$root
+  }
+  return(pstar)
 }
 
 s.lin.interp = interpSpline(pgrid,s.lin,na.action=na.omit,bSpline=TRUE)
@@ -374,69 +358,69 @@ Mseq = seq(min(M),max(M),length.out=n)
 #######################################################
 
 pfunc.CD = function(k,Lseq,Mseq){
-	Q = matrix(NA,nrow=length(Lseq),ncol=length(Mseq))
-	A = 1/((1-k)^(1-k))
-	for(i in 1:(length(Lseq))){ for(k in 1:(length(Mseq))){
-		Q[i,k] = A*(Lseq[i]^k)*(Mseq[k]^(1-k))
-	}}
-	return(Q)
+  Q = matrix(NA,nrow=length(Lseq),ncol=length(Mseq))
+  A = 1/((1-k)^(1-k))
+  for(i in 1:(length(Lseq))){ for(k in 1:(length(Mseq))){
+    Q[i,k] = A*(Lseq[i]^k)*(Mseq[k]^(1-k))
+  }}
+  return(Q)
 }
 
 Q.CD = pfunc.CD(lm.lin$coefficients[1],Lseq,Mseq)
 persp(Lseq,Mseq,Q.CD,theta=-20,phi=45,xlim=c(500000,1200000),ylim=c(20000,300000))
 
 pfunc.full = function(Lseq,Mseq,prod.interp){
-	Q = matrix(NA,nrow=length(Lseq),ncol=length(Mseq))
-	for(i in 1:(length(Lseq))){
-		Q[i,] = pfunc.full2(Lseq[i],Mseq,prod.interp)
-	}
-	return(Q)
+  Q = matrix(NA,nrow=length(Lseq),ncol=length(Mseq))
+  for(i in 1:(length(Lseq))){
+    Q[i,] = pfunc.full2(Lseq[i],Mseq,prod.interp)
+  }
+  return(Q)
 }
 
 pfunc.full2 = function(lval,mval,prod.interp){
-	return(lval*(predict(prod.interp,mval/lval)$y))
+  return(lval*(predict(prod.interp,mval/lval)$y))
 }
 
 pfunc.full.L = function(lval, mval,prod.interp, ord = 1){
-	temp = function(x,mval){ return(pfunc.full2(x,mval,prod.interp))}
-	return(fdiff(lval, temp, h=NULL, order=ord, accur=4, mval))
+  temp = function(x,mval){ return(pfunc.full2(x,mval,prod.interp))}
+  return(fdiff(lval, temp, h=NULL, order=ord, accur=4, mval))
 }
 
 pfunc.full.M = function(mval,lval,prod.interp, ord = 1){
-	temp = function(x,lval){ return( pfunc.full2(lval,x,prod.interp))}
-	return(fdiff(mval, temp, h=NULL, order=ord, accur=4, lval))
+  temp = function(x,lval){ return( pfunc.full2(lval,x,prod.interp))}
+  return(fdiff(mval, temp, h=NULL, order=ord, accur=4, lval))
 }
 
 pfunc.full.LM = function(Lval, Mval, prod.interp){
-	h = (.Machine$double.eps)^(1/3)*abs(min(Lval,Mval))
-
-	f.xy = pfunc.full2(Lval+h, Mval+h, prod.interp)
-	f.x_y = pfunc.full2(Lval+h, Mval-h, prod.interp)
-	f._xy = pfunc.full2(Lval-h, Mval+h, prod.interp)
-	f._x_y = pfunc.full2(Lval-h, Mval-h, prod.interp)
-
-	return(((f.xy-f.x_y)-(f._xy-f._x_y))/(4*h^2))
+  h = (.Machine$double.eps)^(1/3)*abs(min(Lval,Mval))
+  
+  f.xy = pfunc.full2(Lval+h, Mval+h, prod.interp)
+  f.x_y = pfunc.full2(Lval+h, Mval-h, prod.interp)
+  f._xy = pfunc.full2(Lval-h, Mval+h, prod.interp)
+  f._x_y = pfunc.full2(Lval-h, Mval-h, prod.interp)
+  
+  return(((f.xy-f.x_y)-(f._xy-f._x_y))/(4*h^2))
 }
 
 calc.elas.sub = function(Lseq, Mseq, prod.interp){
-	n.L = length(Lseq)
-	n.M = length(Mseq)
-	Q.elas.sub = matrix(NA,nrow=n.L, ncol=n.M)
-	for(i in 1:n.L){
-		for(k in 1:n.M){
-			F.L = pfunc.full.L(Lseq[i],Mseq[k],prod.interp, ord=1)
-			F.M = pfunc.full.M(Mseq[k],Lseq[i],prod.interp, ord=1)
-			F.LL = pfunc.full.L(Lseq[i],Mseq[k],prod.interp, ord=2)
-			F.MM = pfunc.full.M(Mseq[k],Lseq[i],prod.interp, ord=2)
-			F.LM = pfunc.full.LM(Lseq[i],Mseq[k],prod.interp)
-
-			numer = F.L*F.M*(F.L*Lseq[i] + F.M*Mseq[k])
-			denom = Lseq[i]*Mseq[k]*((2*F.L*F.M*F.LM)  - ((F.L^2)*F.MM) - ((F.M^2)*F.LL))
-	
-			Q.elas.sub[i,k] = numer/denom
-		}
-	}
-	return(Q.elas.sub)
+  n.L = length(Lseq)
+  n.M = length(Mseq)
+  Q.elas.sub = matrix(NA,nrow=n.L, ncol=n.M)
+  for(i in 1:n.L){
+    for(k in 1:n.M){
+      F.L = pfunc.full.L(Lseq[i],Mseq[k],prod.interp, ord=1)
+      F.M = pfunc.full.M(Mseq[k],Lseq[i],prod.interp, ord=1)
+      F.LL = pfunc.full.L(Lseq[i],Mseq[k],prod.interp, ord=2)
+      F.MM = pfunc.full.M(Mseq[k],Lseq[i],prod.interp, ord=2)
+      F.LM = pfunc.full.LM(Lseq[i],Mseq[k],prod.interp)
+      
+      numer = F.L*F.M*(F.L*Lseq[i] + F.M*Mseq[k])
+      denom = Lseq[i]*Mseq[k]*((2*F.L*F.M*F.LM)  - ((F.L^2)*F.MM) - ((F.M^2)*F.LL))
+      
+      Q.elas.sub[i,k] = numer/denom
+    }
+  }
+  return(Q.elas.sub)
 }
 
 require(splines)
@@ -452,7 +436,7 @@ Q.vec = as.vector(Q)
 L.vec = as.vector(rep(Lseq,n))
 M.vec = rep(NA, length(Q.vec))
 for(i in 1:n){ for(k in 1:n){
-	M.vec[(i-1)*n + k] = Mseq[i]
+  M.vec[(i-1)*n + k] = Mseq[i]
 }}
 plot3d(L.vec,M.vec,Q.vec)
 
@@ -467,45 +451,45 @@ Q.elas.cub = calc.elas.sub(Lseq, Mseq, prod.cub.interp)
 ### Simulate supply and production functions to calcalate standard errors
 
 sup.loglin = function(grid,parms){
-	alpha = as.numeric(exp(parms[1])*parms[2])
-	beta = as.numeric(parms[2] - 1)
-	return((1/grid)*((1 + (beta/alpha)*log(grid))^(1/beta)))
+  alpha = as.numeric(exp(parms[1])*parms[2])
+  beta = as.numeric(parms[2] - 1)
+  return((1/grid)*((1 + (beta/alpha)*log(grid))^(1/beta)))
 }
 
 prod.loglin = function(q,s){
-	v.hat = s.loglin*pgrid
-	lm.loglin.fitted = exp(lm.loglin$coefficients[1] + lm.loglin$coefficients[2]*log(v.hat))
-	m.loglin = v.hat-lm.loglin.fitted
-	return(list(m=m.loglin,q=s))
+  v.hat = s.loglin*pgrid
+  lm.loglin.fitted = exp(lm.loglin$coefficients[1] + lm.loglin$coefficients[2]*log(v.hat))
+  m.loglin = v.hat-lm.loglin.fitted
+  return(list(m=m.loglin,q=s))
 }
 
 sim.sup.prod = function(mod,grid,sfunc,pfunc,nsim){
-	r = mod$coefficients[,"Estimate"]
-	sd = mod$coefficients[,"Std. Error"]
-	r.sim = matrix(NA,nrow=nsim,ncol=length(r))
-	for(i in 1:length(r)){
-		r.sim[,i] = rnorm(nsim,mean=r[i],sd=sd[i])
-	}
-	
-	s.sd = rep(NA,length(grid))
-	s.mat = matrix(NA,nrow=length(grid),ncol=nsim)
-	for(k in 1:length(grid)){
-		for(i in 1:nsim){
-			s.mat[k,i] = sfunc(grid[k],r.sim[i,])		
-		}
-		s.sd[k] = sd(s.mat[k,])
-	}
-
-	p.sd = rep(NA,length(grid))
-	p.mat = matrix(NA,nrow=length(grid),ncol=nsim)
-	for(i in 1:nsim){
-		## Calculate the prod function for this supply function
-		pfunc.temp = pfunc(grid,s.mat[,i])
-		p.mat[,i] = pfunc.temp$q
-	}
-	for(k in 1:length(grid)) p.sd[k] = sd(p.mat[k,])
-	
-	return(list(s.sd=s.sd,p.sd=p.sd))
+  r = mod$coefficients[,"Estimate"]
+  sd = mod$coefficients[,"Std. Error"]
+  r.sim = matrix(NA,nrow=nsim,ncol=length(r))
+  for(i in 1:length(r)){
+    r.sim[,i] = rnorm(nsim,mean=r[i],sd=sd[i])
+  }
+  
+  s.sd = rep(NA,length(grid))
+  s.mat = matrix(NA,nrow=length(grid),ncol=nsim)
+  for(k in 1:length(grid)){
+    for(i in 1:nsim){
+      s.mat[k,i] = sfunc(grid[k],r.sim[i,])		
+    }
+    s.sd[k] = sd(s.mat[k,])
+  }
+  
+  p.sd = rep(NA,length(grid))
+  p.mat = matrix(NA,nrow=length(grid),ncol=nsim)
+  for(i in 1:nsim){
+    ## Calculate the prod function for this supply function
+    pfunc.temp = pfunc(grid,s.mat[,i])
+    p.mat[,i] = pfunc.temp$q
+  }
+  for(k in 1:length(grid)) p.sd[k] = sd(p.mat[k,])
+  
+  return(list(s.sd=s.sd,p.sd=p.sd))
 }
 
 sim.funcs = sim.sup.prod(summary(lm.loglin),pgrid,sup.loglin,prod.loglin,100)
@@ -526,12 +510,12 @@ lines(m.loglin, prod.loglin.lb, col="red",lty=2)
 
 # Supply and production plots in log-log scale
 plot(log(s.loglin),log(pgrid),type="l",main="Log-linear Supply Function with \n 95% Confidence Band",
-					xlab="log(Supply)",ylab="log(Price)", xlim=c(0,log(40)), lwd=2)
+     xlab="log(Supply)",ylab="log(Price)", xlim=c(0,log(40)), lwd=2)
 lines(log(s.loglin.lb),log(pgrid),col="black",lty=2)
 lines(log(s.loglin.ub),log(pgrid),col="black",lty=2)
 
 plot(log(m.loglin),log(s.loglin), type="l",main="Log-linear Production Function with \n 95% Confidence Band",
-					xlab="log(m)",ylab="log(q)", xlim=c(0,log(80)), lwd=2)
+     xlab="log(m)",ylab="log(q)", xlim=c(0,log(80)), lwd=2)
 lines(log(m.loglin), log(prod.loglin.ub), col="black",lty=2)
 lines(log(m.loglin), log(prod.loglin.lb), col="black",lty=2)
 
@@ -541,73 +525,73 @@ lines(log(m.loglin), log(prod.loglin.lb), col="black",lty=2)
 # A function to compute highly accurate first- and second-order derivatives
 # From Fornberg and Sloan (Acta Numerica, 1994, p. 203-267; Table 1, page 213)
 fdiff <- function(x, fun, h=NULL, order=1, accur=4, ...) {
-	macheps <- .Machine$double.eps
-	
-	if (order==1) {
-		if(is.null(h)) h <- macheps^(1/3)* abs(x)
-		ifelse (accur==2, w <- c(-1/2,1/2), w <- c(1/12,-2/3, 2/3,-1/12))
-		ifelse (accur==2, xd <- x + h*c(-1,1), xd <- x + h*c(-2,-1,1,2))
-		return(sum(w*fun(xd,...))/h)
-	}
-	else if (order==2) {
-		if(is.null(h)) h <- macheps^(1/4)* abs(x)
-		ifelse (accur==2, w <- c(1,-2,1), w <- c(-1/12,4/3,-5/2,4/3,-1/12))
-		ifelse (accur==2, xd <- x + h*c(-1,0,1), xd <- x + h*c(-2,-1,0,1,2))
-		return(sum(w*fun(xd,...))/h^2)
-	}
+  macheps <- .Machine$double.eps
+  
+  if (order==1) {
+    if(is.null(h)) h <- macheps^(1/3)* abs(x)
+    ifelse (accur==2, w <- c(-1/2,1/2), w <- c(1/12,-2/3, 2/3,-1/12))
+    ifelse (accur==2, xd <- x + h*c(-1,1), xd <- x + h*c(-2,-1,1,2))
+    return(sum(w*fun(xd,...))/h)
+  }
+  else if (order==2) {
+    if(is.null(h)) h <- macheps^(1/4)* abs(x)
+    ifelse (accur==2, w <- c(1,-2,1), w <- c(-1/12,4/3,-5/2,4/3,-1/12))
+    ifelse (accur==2, xd <- x + h*c(-1,0,1), xd <- x + h*c(-2,-1,0,1,2))
+    return(sum(w*fun(xd,...))/h^2)
+  }
 }
 
 # y is a data frame, x is a matrix
 plot.with.legend = function(x,y,col=1:ncol(x),lty=1:ncol(x),xlim=NULL,ylim=NULL,
-			titles=names(y),lposx=(max(x)-max(x)/4),lposy=max(y)/3,main="",xl="",yl="",...){
-	matplot(x,as.matrix(y),col=col, lty=lty,lwd=c(2,2,2,2), type="l",
-		 main=main,xlab=xl,ylab=yl,xlim=xlim,ylim=ylim, ...)
-	legend(lposx,lposy, titles, col=col, lty=lty)
+                            titles=names(y),lposx=(max(x)-max(x)/4),lposy=max(y)/3,main="",xl="",yl="",...){
+  matplot(x,as.matrix(y),col=col, lty=lty,lwd=c(2,2,2,2), type="l",
+          main=main,xlab=xl,ylab=yl,xlim=xlim,ylim=ylim, ...)
+  legend(lposx,lposy, titles, col=col, lty=lty)
 }
 
 ### Calculate the derivative of a function over a given range of values
 calc.deriv = function(grid,fun,interp.obj=NULL,high.density=FALSE){
-      	require(splines)
-	fun.interp = NULL
-	if(! is.null(interp.obj)){
-		fun.interp = interp.obj
-	}
-	else if(!high.density && length(grid)>200){
-		interp.grid = rep(NA,200)
-		interp.grid[1] = grid[1]
-		interp.grid[200] = grid[200]
-		interp.grid = sample(grid,198)
-		fun.grid = fun[interp.grid]
-		fun.interp = interpSpline(interp.grid,fun.grid,na.action=na.omit,bSpline=FALSE)
-	}
-	else{
-		fun.interp = interpSpline(grid,fun,na.action=na.omit,bSpline=FALSE)
-	}
-	d = rep(NA,length(grid))
-	for(i in 1:length(grid)){
-		d[i] = fdiff(grid[i],function(x){(predict(fun.interp,x))$y})
-	}
-	return(list(x=grid,d=d))
+  require(splines)
+  fun.interp = NULL
+  if(! is.null(interp.obj)){
+    fun.interp = interp.obj
+  }
+  else if(!high.density && length(grid)>200){
+    interp.grid = rep(NA,200)
+    interp.grid[1] = grid[1]
+    interp.grid[200] = grid[200]
+    interp.grid = sample(grid,198)
+    fun.grid = fun[interp.grid]
+    fun.interp = interpSpline(interp.grid,fun.grid,na.action=na.omit,bSpline=FALSE)
+  }
+  else{
+    fun.interp = interpSpline(grid,fun,na.action=na.omit,bSpline=FALSE)
+  }
+  d = rep(NA,length(grid))
+  for(i in 1:length(grid)){
+    d[i] = fdiff(grid[i],function(x){(predict(fun.interp,x))$y})
+  }
+  return(list(x=grid,d=d))
 }
 
 calc.elas = function(grid,sfunc,bspline=TRUE){
-	require(splines)
-	s.interp = interpSpline(grid,sfunc,na.action=na.omit,bSpline=bspline)
-	s.elas = rep(NA,length(grid))
-	for(i in 1:length(grid)){
-		s.elas[i] = (fdiff(grid[i],function(x){(predict(s.interp,x))$y}))*(grid[i]/sfunc[i])
-	}
-	return(s.elas)
+  require(splines)
+  s.interp = interpSpline(grid,sfunc,na.action=na.omit,bSpline=bspline)
+  s.elas = rep(NA,length(grid))
+  for(i in 1:length(grid)){
+    s.elas[i] = (fdiff(grid[i],function(x){(predict(s.interp,x))$y}))*(grid[i]/sfunc[i])
+  }
+  return(s.elas)
 }
 
 ### pa - actual set of prices corresponding to the data
 ### s - supply function
 calc.average.elas = function(pa,s.interp,bspline=TRUE){
-	require(splines)
-	s.pred = predict(s.interp,pa)
-	s.elas = rep(NA,length(pa))
-	for(i in 1:length(pa)){
-		s.elas[i] = (fdiff(pa[i],function(x){(predict(s.interp,x))$y}))*(pa[i]/s.pred$y[i])
-	}
-	return(s.elas)
+  require(splines)
+  s.pred = predict(s.interp,pa)
+  s.elas = rep(NA,length(pa))
+  for(i in 1:length(pa)){
+    s.elas[i] = (fdiff(pa[i],function(x){(predict(s.interp,x))$y}))*(pa[i]/s.pred$y[i])
+  }
+  return(s.elas)
 }
