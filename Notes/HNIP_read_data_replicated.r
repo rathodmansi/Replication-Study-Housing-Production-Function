@@ -12,7 +12,7 @@
 ################################################################
 
 
-source("HNIP_estimator_REPLICATED.R")
+source("HNIP_estimator.R")
 
 INST.HAS.CONSTANT = TRUE
 BASE.EQ.CONSTANT = FALSE
@@ -92,8 +92,7 @@ for(b in 1:B){
   
   beta.hat[b,] = HNP.estimator(K,p.cont,tcog.b,(as.matrix(Q.df.b))[,2:(p.dummy+1)],v.b,pland.b)
   # beta.hat[b,] = HNP.estimator(K,p.cont,tcog.b, matrix(1,1,1),v.b,pland.b)
-  print(beta.hat)
-  print(b)
+  
   if(b %% 50 == 0){
     print(paste("b = ", b)) ## print iterations
   }
@@ -106,12 +105,3 @@ plot(density(beta.hat[,2]), main="Coefficient for V^2")
 plot(density(beta.hat[,3]), main="Coefficient for V^3")
 
 round(est, digits=6)
-
-
-
-
-
-
-
-
-

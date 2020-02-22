@@ -334,4 +334,3 @@ calcExpectedOuterProduct = function(X){
     return(sum.X/N)
   }
 }
-
