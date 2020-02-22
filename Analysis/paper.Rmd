@@ -3,7 +3,8 @@ title: "[Re] A New Approach to Estimating the Production Function for Housing"
 author: "Aniruddha Dutta, Mansi Rathod, Mayur Gupta, Pradeep Prabhakar, Sreeja Vishaly Manohar"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: bookdown::word_document2
-bibliography: reference.bibtex
+bibliography: reference.bib
+link-citations: yes
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warnings = FALSE}
@@ -22,6 +23,9 @@ A reference implementation of:
 
 # Introduction
 
+The purpose of the paper is to do a replication of the paper "A New Approach to Estimating the Production Function for Housing" [@epple2010new] that estimates the production function for housing. Based on two factors - the observed variation in land prices and housing values per unit of land, the original paper has provided an algorithm to identify the housing supply function per unit of land. This in turn is used to derive an estimate of the underlying production function. The approach yielded plausible estimates for the price elasticity of housing supply per unit of land, based on data from Allegheny County in Pennsylvania. In the paper,we propose a reference implementation by adding two additional models to replicate an estimation function that relates land price and home value per unit land and produce the corresponding tables and plots.Estimating housing production functions is challenging, as the quantity and price per unit of the housing services are not observed by the econometrician. Replicating the study helps us to understand how the underlying production function is estimated by treating prices and quantities of housing services as latent variables, without relying on strong functional form assumptions.
+
+
 # Methods
 
 # Results
@@ -30,4 +34,5 @@ A reference implementation of:
 
 # References
 
+1.@epple2010new
 
