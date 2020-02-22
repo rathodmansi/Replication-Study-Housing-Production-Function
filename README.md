@@ -20,7 +20,7 @@ Epple, Dennis, Brett Gordon, and Holger Sieg. 2010. *"A New Approach to Estimati
 The paper for the replication study was found at the *[American Economic Association](https://www.aeaweb.org/articles?id=10.1257/aer.100.3.905)* and the data was obtained from the *[Open ICPSR](https://www.openicpsr.org/openicpsr/project/112360/version/V1/view)* in the form of text files. The data describes the residential and commercial real estate in Allegheny County in Pennsylvania post 1995 <br/>
 
 ### Dependencies:
-For our projects, we had to install one package ‘MASS’ . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
+For our projects, we had to install two package ‘MASS’ and 'Bolstad' . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
 
 Package ‘odesolve’ has been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same.
 
@@ -74,6 +74,7 @@ Package ‘odesolve’ has been removed from the CRAN repository. The more recen
  testthat      2.3.1    2019-12-01 [1] CRAN (R 3.6.0)
  usethis       1.5.1    2019-07-04 [1] CRAN (R 3.6.0)
  withr         2.1.2    2018-03-15 [1] CRAN (R 3.6.0)
+ Bolstad       0.2.40   2018-10-09 [1] CRAN (R 3.6.0)
 </pre>
 <pre>
 [1] /Library/Frameworks/R.framework/Versions/3.6/Resources/library
