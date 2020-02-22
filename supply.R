@@ -11,8 +11,8 @@
 
 library(MASS)
 library(splines)
-## library(odesolve) - This function is no longer maintained by CRAN
-library(deSolve)
+## library(odesolve) " This function is no longer
+library(desolve)
 library(lokern)
 
 #######################################################
@@ -20,7 +20,7 @@ library(lokern)
 #######################################################
 
 # Just pland, v, and lotarea
-data = read.csv("Pittsburgh_post1995.txt", header=TRUE)
+data = read.csv("qryGetPropertiesLandValueRegressions_post1995.txt", header=TRUE)
 N = dim(data)[1]
 
 v = data$v
@@ -80,12 +80,12 @@ gkern.interp = interpSpline(gkern$x.out,gkern$est,na.action=na.omit,bSpline=TRUE
 
 gkern.log = glkerns(logv, logpland, deriv=0,n.out=300, hetero=TRUE)
 gkern.log.interp = interpSpline(gkern.log$x.out,gkern.log$est,na.action=na.omit,bSpline=TRUE)
-gkern.log.fitted = predict(gkern.log.interp, logv) ## ??1234
+gkern.log.fitted = predict(ks.log.interp, logv)
 
 par(mfrow=c(1,2))
 plot(gkern.deriv$x.out,gkern.deriv$est, type="l")
 plot(gkern.log$x.out,gkern.log$est, type="l", col="red")
-plot(gkern$x.out,gkern$est, type="l")  ## ??
+plot(lkern$x.out,lkern$est, type="l")
 
 ### Plot the regressions
 plot(logv, lm.loglin$fitted.values, type="l",xlim=c(-2,5), ylim=c(-3,3.5))
@@ -95,7 +95,7 @@ lines(logv, log(lm.quad$fitted.values), col="green")
 lines(logv, log(lm.cub$fitted.values), col="orange")
 
 regs = data.frame("Log-Linear"=lm.loglin$fitted.values, "Linear"=log(lm.lin$fitted.values),"Quadratic"=log(lm.quad$fitted.values),
-			"Cubic"=log(lm.cub$fitted.values), "Log Kernel"=gkern.log.fitted$y)
+			"Cubic"=log(lm.cub$fitted.values), "Log Kernel"=ks.log.fitted$y)
 
 matplot(cbind(logv,logv,logv,logv,logv), regs, col=1:ncol(regs), lty=1:ncol(regs),lwd=c(2,2,2,2), type="l", 
 	  main="Fitted Regressions for r(v)", xlab="v", ylab="p_l", xlim=c(-2,5), ylim=c(-3,3.5))
@@ -142,11 +142,7 @@ s.loglin = (1/pgrid)*((1 + (beta/alpha)*log(pgrid))^(1/beta))
 ### Solve ODE for kernel supply function
 
 rprime = interpSpline(gkern.deriv$x.out,gkern.deriv$est,na.action=na.omit,bSpline=TRUE)
-## calc.supply.deriv = function(t,y, params) list((y/t)*((1/(predict(rprime,y*t))$y)-1))
-calc.supply.deriv = function(pgrid.kern,xstart, params) list((xstart/pgrid.kern)*((1/(predict(rprime,xstart*pgrid.kern))$x)-1))
-##dd = function(pgrid.kern,xstart, params)  ## ??
-  
-## list((xstart/pgrid.kern)*((1/(predict(rprime,xstart*pgrid.kern))$x)-1)) ## ??
+calc.supply.deriv = function(t,y, params) list((y/t)*((1/(predict(rprime,y*t))$y)-1))
 
 xstart = c(1)
 pgrid.kern = c(1, seq(1.001,ub,length.out=vseq.n-1))
@@ -192,15 +188,6 @@ s.ll.iv = calc.loglin.supply(pgrid,r.ll.iv)
 s.alt.funcs = data.frame("Regular"=s.loglin,"Kernel"=s.kern$s,"IV"=s.ll.iv)
 pgrids = cbind(pgrid,s.kern$p,pgrid)
 
-## Missing the definition of funciton. Added the function 'plot.with.legen' definition from Line 504
-plot.with.legend = function(x,y,col=1:ncol(x),lty=1:ncol(x),xlim=NULL,ylim=NULL,
-                            titles=names(y),lposx=(max(x)-max(x)/4),lposy=max(y)/3,main="",xl="",yl="",...){
-  matplot(x,as.matrix(y),col=col, lty=lty,lwd=c(2,2,2,2), type="l",
-          main=main,xlab=xl,ylab=yl,xlim=xlim,ylim=ylim, ...)
-  legend(lposx,lposy, titles, col=col, lty=lty)
-}
-
-## Usual Code
 plot.with.legend(s.alt.funcs, pgrids, titles=names(s.alt.funcs),
 		main="Alternative Supply Functions for log-linear r(v)",
 		lposx=30, lposy=1.2,xlim=c(0,40),ylim=c(1,2.1))
@@ -268,35 +255,7 @@ legend(60, 12, names(prod.funcs), col=1:ncol(prod.funcs), lty=1:ncol(prod.funcs)
 #######################################################
 ### Calculate supply elasticities
 #######################################################
-## Missing definition of 'calc.elas' and 'fdiff' function. Added the defintion of 'calc.elas' and 'fdiff'
 
-fdiff <- function(x, fun, h=NULL, order=1, accur=4, ...) {
-  macheps <- .Machine$double.eps
-  
-  if (order==1) {
-    if(is.null(h)) h <- macheps^(1/3)* abs(x)
-    ifelse (accur==2, w <- c(-1/2,1/2), w <- c(1/12,-2/3, 2/3,-1/12))
-    ifelse (accur==2, xd <- x + h*c(-1,1), xd <- x + h*c(-2,-1,1,2))
-    return(sum(w*fun(xd,...))/h)
-  }
-  else if (order==2) {
-    if(is.null(h)) h <- macheps^(1/4)* abs(x)
-    ifelse (accur==2, w <- c(1,-2,1), w <- c(-1/12,4/3,-5/2,4/3,-1/12))
-    ifelse (accur==2, xd <- x + h*c(-1,0,1), xd <- x + h*c(-2,-1,0,1,2))
-    return(sum(w*fun(xd,...))/h^2)
-  }
-}
-calc.elas = function(grid,sfunc,bspline=TRUE){
-  require(splines)
-  s.interp = interpSpline(grid,sfunc,na.action=na.omit,bSpline=bspline)
-  s.elas = rep(NA,length(grid))
-  for(i in 1:length(grid)){
-    s.elas[i] = (fdiff(grid[i],function(x){(predict(s.interp,x))$y}))*(grid[i]/sfunc[i])
-  }
-  return(s.elas)
-}
-
-## Usual Code
 require(splines)
 s.loglin.elas = calc.elas(pgrid,s.loglin)
 s.lin.elas = calc.elas(pgrid,s.lin)
