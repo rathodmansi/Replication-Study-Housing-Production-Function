@@ -22,6 +22,8 @@ The paper for the replication study was found at the *[American Economic Associa
 ### Dependencies:
 For our projects, we had to install one package ‘MASS’ . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
 
+Package ‘odesolve’ has been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same.
+
 <pre>
 ─ Session info ───────────────────────────────────────────────────
  setting  value                       
