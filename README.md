@@ -23,7 +23,7 @@ The paper for the replication study was found at the *[American Economic Associa
 For our projects, we had to install one package ‘MASS’ . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
 
 <pre>
-─ Session info ─────────────────────────────────────────────
+─ Session info ───────────────────────────────────────────────────
  setting  value                       
  version  R version 3.6.2 (2019-12-12)
  os       macOS Mojave 10.14.6        
@@ -33,10 +33,10 @@ For our projects, we had to install one package ‘MASS’ . Below is the comple
  collate  en_US.UTF-8                 
  ctype    en_US.UTF-8                 
  tz       America/Los_Angeles         
- date     2020-01-26                  
- </pre>
- <pre>
-─ Packages ─────────────────────────────────────────────────
+ date     2020-02-21                  
+</pre>
+<pre>
+─ Packages ───────────────────────────────────────────────────────
  package     * version  date       lib source        
  assertthat    0.2.1    2019-03-21 [1] CRAN (R 3.6.0)
  backports     1.1.5    2019-10-02 [1] CRAN (R 3.6.0)
@@ -50,6 +50,7 @@ For our projects, we had to install one package ‘MASS’ . Below is the comple
  fansi         0.4.1    2020-01-08 [1] CRAN (R 3.6.0)
  fs            1.3.1    2019-05-06 [1] CRAN (R 3.6.0)
  glue          1.3.1    2019-03-12 [1] CRAN (R 3.6.0)
+ lokern      * 1.1-8    2016-10-11 [1] CRAN (R 3.6.0)
  magrittr      1.5      2014-11-22 [1] CRAN (R 3.6.0)
  MASS        * 7.3-51.5 2019-12-20 [1] CRAN (R 3.6.0)
  memoise       1.1.0    2017-04-21 [1] CRAN (R 3.6.0)
@@ -61,10 +62,11 @@ For our projects, we had to install one package ‘MASS’ . Below is the comple
  R6            2.4.1    2019-11-12 [1] CRAN (R 3.6.0)
  Rcpp          1.0.3    2019-11-08 [1] CRAN (R 3.6.0)
  remotes       2.1.0    2019-06-24 [1] CRAN (R 3.6.0)
- rlang         0.4.2    2019-11-23 [1] CRAN (R 3.6.0)
+ rlang         0.4.4    2020-01-28 [1] CRAN (R 3.6.0)
  rprojroot     1.3-2    2018-01-03 [1] CRAN (R 3.6.0)
  rstudioapi    0.10     2019-03-19 [1] CRAN (R 3.6.0)
  sessioninfo   1.1.1    2018-11-05 [1] CRAN (R 3.6.0)
+ sfsmisc       1.1-5    2020-02-09 [1] CRAN (R 3.6.2)
  testthat      2.3.1    2019-12-01 [1] CRAN (R 3.6.0)
  usethis       1.5.1    2019-07-04 [1] CRAN (R 3.6.0)
  withr         2.1.2    2018-03-15 [1] CRAN (R 3.6.0)
@@ -72,7 +74,8 @@ For our projects, we had to install one package ‘MASS’ . Below is the comple
 <pre>
 [1] /Library/Frameworks/R.framework/Versions/3.6/Resources/library
 </pre>
-</pre>
+
+
 
 ### Contributing:
 We welcome contributions from everyone. Before you get started, please see our contributor guidelines. Please note that this project is released with a [Contributor Code of Conduct](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its [terms](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/blob/master/CONTRIBUTING.md).
