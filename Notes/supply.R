@@ -11,7 +11,7 @@
 
 library(MASS)
 library(splines)
-## library(odesolve) " This function is no longer
+## library(odesolve) " This function is no longer supported by CRAN
 library(desolve)
 library(lokern)
 
