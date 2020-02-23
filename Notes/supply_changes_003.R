@@ -118,16 +118,18 @@ abline(coef=thetaValues, col = '#F0E442')
 predictedValuesGD <- calculatePredictionValues(logv, logpland, thetaValues[2], thetaValues[1])
 
 #Added two new model prediction 
-#1) Gaussian Generalized Log Linear Model
-#2) Gradient Descent Log Linear Model
+#1) Gaussian Generalized Log Linear Model: Gaus.LLM
+#2) Gradient Descent Log Linear Model: GradDes.LLM
 
 regs = data.frame("Log-Linear"=lm.loglin$fitted.values, "Linear"=log(lm.lin$fitted.values),"Quadratic"=log(lm.quad$fitted.values),
-                  "Cubic"=log(lm.cub$fitted.values), "Log Kernel"=gkern.log.fitted$y, 'Gaussian Generalized Log Linear Model'=glm.loglin$fitted.values,
-                  'Gradient Descent Log Linear Model'=predictedValuesGD)
+                  "Cubic"=log(lm.cub$fitted.values), "Log Kernel"=gkern.log.fitted$y, 'Gaus.LLM'=glm.loglin$fitted.values,
+                  'GradDes.LLM'=predictedValuesGD)
+
+regs_table2 = data.frame("Log-Linear" = summary(lm.loglin)$coeff)
 
 matplot(cbind(logv,logv,logv,logv,logv,logv,logv), regs, col=1:ncol(regs), lty=1:ncol(regs),lwd=c(2,2,2,2), type="l", 
-        main="Fitted Regressions for r(v)", xlab="v", ylab="p_l", xlim=c(-2,5), ylim=c(-3,3.5))
-legend(3.3, -0.5, names(regs), col=1:ncol(regs), lty=1:ncol(regs))
+        main="Fitted Regressions for r(v)", xlab="v", ylab="p_l", xlim=c(-0.5,5), ylim=c(-2.2,3.5))
+legend(3.9, 0.5, names(regs), col=1:ncol(regs), lty=1:ncol(regs), cex = 0.5 )
 
 #######################################################
 ### Derive supply functions for each
