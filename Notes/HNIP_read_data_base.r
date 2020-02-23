@@ -11,7 +11,8 @@
 ### Comments should be sent to brg2114@columbia.edu.
 ################################################################
 
-source("HNIP_estimator.R")
+
+source("HNIP_estimator_base.r")
 
 INST.HAS.CONSTANT = TRUE
 BASE.EQ.CONSTANT = FALSE
@@ -19,7 +20,7 @@ BASE.EQ.CONSTANT = FALSE
 #### (1) Read in the raw data
 
 # Just pland, v, and lotarea
-data = read.table("../Data/Pittsburgh_post1995.txt", header=T, sep=",")
+data = read.table("data.txt", header=T, sep=",")
 
 N = dim(data)[1]
 
@@ -99,11 +100,17 @@ for(b in 1:B){
 
 est = sapply(1:K, function(i){ return( round(c(mean(beta.hat[,i]), sqrt(var(beta.hat[,i])) ), digits=8) ) })
 par(mfrow=c(1,3))
-
-##Plotting the Bayesian Regression 
-
 plot(density(beta.hat[,1]), main="Coefficient for V")
 plot(density(beta.hat[,2]), main="Coefficient for V^2")
 plot(density(beta.hat[,3]), main="Coefficient for V^3")
 
 round(est, digits=6)
+
+
+
+
+
+
+
+
+

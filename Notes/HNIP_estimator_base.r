@@ -12,10 +12,6 @@
 
 library(MASS)
 
-#Updating the New package for the Bayesian Regression.
-
-library(Bolstad)
-
 ####################################################################
 # K - Order of the polynomial to use
 # P.cont - Dimension of the instruments (includes constant if added)
@@ -28,7 +24,6 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
   N = length(x)
   
   ### Check if matrix of dummy variables
-  
   if(dim(Q.dummy)[1] == 1){
     INST.DUMMY = FALSE
   }else{
@@ -39,7 +34,6 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
   
   #### (1) Estimate alpha coefficients (HNIP, p. 283, eq. 3.3)
   # Create vector of instruments
-  ##Using bayes.lm function instead of lm 
   
   if(INST.HAS.CONSTANT){
     qvec = matrix(1, nrow=N, ncol=P.cont)
@@ -47,14 +41,14 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
     if(INST.DUMMY){
       qvec = cbind(qvec, Q.dummy)
     }
-    alpha.stage.lm <-bayes.lm(x ~ qvec[,2:P])
+    alpha.stage.lm <- lm(x ~ qvec[,2:P])
   }else{
     qvec = matrix(1, nrow=N, ncol=P.cont)
     for(i in 1:K){ qvec[,i] = q^{i} }
     if(INST.DUMMY){
       qvec = cbind(qvec, Q.dummy)
     }
-    alpha.stage.lm <-bayes.lm(x ~ qvec - 1)
+    alpha.stage.lm <- lm(x ~ qvec - 1)
   }
   
   #summary(alpha.stage.lm)
@@ -66,23 +60,21 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
   w = alpha.stage.lm$fitted.values
   
   #### (3) Estimate the gamma coefficients (HNIP, p. 284, eq. 3.5)
-  ##Using bayes.lm function instead of lm 
   
   W = matrix(0, nrow=N, ncol=K)
   for(i in 1:K){ W[,i] = w^i }
   
   if(BASE.EQ.CONSTANT){
-    gamma.stage.lm <-bayes.lm(y ~ W) 
+    gamma.stage.lm <- lm(y ~ W) 
   }else{
-    gamma.stage.lm <-bayes.lm(y ~ W-1)  ### No constant b/c model says that 0 = r(0)
+    gamma.stage.lm <- lm(y ~ W-1)  ### No constant b/c model says that 0 = r(0)
   }
   
   #summary(gamma.stage.lm)
   
   gamma = (gamma.stage.lm$coefficients)
   
-  #### (4) Estimate the delta coefficients (HNIP, p. 285, eq. 3.8)
-  ##Using bayes.lm function instead of lm 
+  #### (4) Estimate the delta coefficients (HNIP, p. 285, eq. 3.8)  
   
   xy = x*y
   
@@ -90,9 +82,9 @@ HNP.estimator = function(K,P.cont,q,Q.dummy,x,y){
   for(i in 1:(K+1)){ WW[,i] = w^i}
   
   if(BASE.EQ.CONSTANT){
-    delta.stage.lm <-bayes.lm(xy ~ WW)  
+    delta.stage.lm <- lm(xy ~ WW)  
   }else{
-    delta.stage.lm <-bayes.lm(xy ~ WW - 1)   	  # DO NOT allow for a constant
+    delta.stage.lm <- lm(xy ~ WW - 1)   	  # DO NOT allow for a constant
   }
   #summary(delta.stage.lm)
   delta = delta.stage.lm$coefficients   ## Keep all the coefficients, including constant
@@ -342,4 +334,3 @@ calcExpectedOuterProduct = function(X){
     return(sum.X/N)
   }
 }
-
