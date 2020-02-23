@@ -1,8 +1,7 @@
-
-
+x <- read.csv('../ReproducedTable.csv', header = T)
 # Define the squared error cost function	
 cost <- function(X, y, theta) {
-  sum( (X %*% theta - y)^2 ) / (2*length(y)) 
+  sum( (X %*% theta - y)^2 ) / (2*length(y))
 }
 
 

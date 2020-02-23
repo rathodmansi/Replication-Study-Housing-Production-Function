@@ -85,6 +85,10 @@ glm.loglin = glm(logpland ~ logv)
 #Log Linear model with a different Gradient Descent Loss Function
 thetaValues = gradientDescentLinearModel(logv, logpland, 0.1, 1000)
 
+<<<<<<< HEAD
+=======
+summary(glm.loglin)
+>>>>>>> d0092be2518cda0bd3ae4cbe25a9c332fbef1f5d
 ### Non-parametric estimation of r(v)
 
 gkern.deriv = glkerns(v, pland, deriv=1,n.out=300, hetero=TRUE,bandwidth=v.sd*1.1)
@@ -127,7 +131,7 @@ regs = data.frame("Log-Linear"=lm.loglin$fitted.values, "Linear"=log(lm.lin$fitt
 
 matplot(cbind(logv,logv,logv,logv,logv,logv,logv), regs, col=1:ncol(regs), lty=1:ncol(regs),lwd=c(2,2,2,2), type="l", 
         main="Fitted Regressions for r(v)", xlab="v", ylab="p_l", xlim=c(-2,5), ylim=c(-3,3.5))
-legend(3.3, -0.5, names(regs), col=1:ncol(regs), lty=1:ncol(regs))
+legend(-2, 3.5, names(regs), col=1:ncol(regs), lty=1:ncol(regs))
 
 #######################################################
 ### Derive supply functions for each

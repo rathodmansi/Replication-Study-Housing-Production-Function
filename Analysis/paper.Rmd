@@ -3,7 +3,8 @@ title: "[Re] A New Approach to Estimating the Production Function for Housing"
 author: "Aniruddha Dutta, Mansi Rathod, Mayur Gupta, Pradeep Prabhakar, Sreeja Vishaly Manohar"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: bookdown::word_document2
-bibliography: reference.bibtex
+bibliography: reference.bib
+link-citations: yes
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warnings = FALSE}
@@ -22,12 +23,32 @@ A reference implementation of:
 
 # Introduction
 
+The purpose of the paper is to do a replication of the paper "A New Approach to Estimating the Production Function for Housing" [@epple2010new] that estimates the production function for housing. Based on two factors - the observed variation in land prices and housing values per unit of land, the original paper has provided an algorithm to identify the housing supply function per unit of land. This in turn is used to derive an estimate of the underlying production function. The approach yielded plausible estimates for the price elasticity of housing supply per unit of land, based on data from Allegheny County in Pennsylvania. In the paper,we propose a reference implementation by adding two additional models to replicate an estimation function that relates land price and home value per unit land and produce the corresponding tables and plots.Estimating housing production functions is challenging, as the quantity and price per unit of the housing services are not observed by the econometrician. Replicating the study helps us to understand how the underlying production function is estimated by treating prices and quantities of housing services as latent variables, without relying on strong functional form assumptions.
+
+
 # Methods
+The current methodology provided by the author for estimating house price supply function uses parametric models. The author in the paper aims to establish a function $r(\nu)$ which relates land price $(p_l)$ and home value per unit land $(\nu)$. The parametric functions used for the purpose is OLS with different variations in it. The paper has used multiple transformation on data to produce linear, log linear and polynomial linear models to best identify the relation.
+ 
+Since, the function $r(\nu)$ forms the root of further analysis and calculation, it is imperative that we replicate the study of these models to test the robustness and the assumptions behind the models. 
+We decided two split the method of implementation in two direction. The first method is to use a different model for replication and the other is changing the loss function used in the model.
+ 
+For the first case of different model, we decided use Generalized Linear Model with different distribution families. Using different families allows us to verify the condition of normality of error in the models used by authors. We noticed that the gaussian distribution family with log independent and dependent variable produced a line that fitted the best with the data and the corresponding coefficients were very similar to the log linear model used by the author.
+
+In the case of different loss function, we wrote a function code to implement log linear regression with gradient descent loss function. The gradient descent loss function provides a more flexible approach because of the presence of hyperparameters *learning rate* and *number of iteration*. The author of the paper has not explored this methodology, therefore we had no information about the value of hyperparameters *learning rate* and *number of iteration*, therefore we ran a simulation study to determine the hyperparameters that delivered values of coefficients very similar to that of the models used by the author
+
 
 # Results
+``` {r, echo = FALSE, message = FALSE, warnings = FALSE, results = 'asis'}
+library(knitr)
+table <- read.csv('./ReproducedTable.csv', header = T, na.strings = '__')
+colnames(table) = gsub("_", " ", colnames(table))
+table[is.na(table)]<- " "
+kable(table, caption = "Table")
+```
 
 # Conclusion
 
 # References
 
+1.@epple2010new
 
