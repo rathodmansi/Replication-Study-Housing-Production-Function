@@ -8,6 +8,8 @@ link-citations: yes
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warnings = FALSE}
+library(knitr)
+library(tidyverse)
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
@@ -28,8 +30,6 @@ The purpose of the paper is to do a replication of the paper "A New Approach to 
 
 # Methods
 
-The paper uses Ordinary Differential Equations for calculating the supply functions, $s(\p)$. For this package 'odesolve' has been used in the base paper. Package ‘odesolve’ has been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same.
-
 The current methodology provided by the author for estimating house price supply function uses parametric models. The author in the paper aims to establish a function $r(\nu)$ which relates land price $(p_l)$ and home value per unit land $(\nu)$. The parametric functions used for the purpose is OLS with different variations in it. The paper has used multiple transformation on data to produce linear, log linear and polynomial linear models to best identify the relation.
  
 Since, the function $r(\nu)$ forms the root of further analysis and calculation, it is imperative that we replicate the study of these models to test the robustness and the assumptions behind the models. 
@@ -39,17 +39,24 @@ For the first case of different model, we decided use Generalized Linear Model w
 
 In the case of different loss function, we wrote a function code to implement log linear regression with gradient descent loss function. The gradient descent loss function provides a more flexible approach because of the presence of hyperparameters *learning rate* and *number of iteration*. The author of the paper has not explored this methodology, therefore we had no information about the value of hyperparameters *learning rate* and *number of iteration*, therefore we ran a simulation study to determine the hyperparameters that delivered values of coefficients very similar to that of the models used by the author
 
+The paper uses Ordinary Differential Equations for calculating the supply functions, $s(p)$. For this package 'odesolve' has been used in the base paper. Package ‘odesolve’ has been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same.
+
 
 # Results
 
-The original paper had estimated the r(v) function which characterizes the relationship between the price of land and the value of housing per unit of land. Using OLS for log-linear, linear, quadratic and cubic models, it reports the estimates of the equilibrium locus.  We have enclosed the same in Table 1.  We have replicated the same results using gaussian log-linear model and gradient descent log linear model.  Results are enclosed in Table 2. For both of these two models, they fit the main features of the residential data substantially well and their performance is similar to the earlier four models. All the p-values were calculated using heteroskedasticity-robust standard errors and they were significant at 1% level. For effective and comprehensive comparisons of all the six models used, we have also enclosed a plot of all our six models. As iterated, we see r(v) functions form all the six models yielding similarly shaped production functions
+The original paper had estimated the r(v) function which characterizes the relationship between the price of land and the value of housing per unit of land. Using OLS for log-linear, linear, quadratic and cubic models, it reports the estimates of the equilibrium locus. We have replicated the same results using gaussian log-linear model and gradient descent log linear model.  Results are enclosed in Table 1. For both of these two models, they fit the main features of the residential data substantially well and their performance is similar to the earlier four models. All the p-values were calculated using heteroskedasticity-robust standard errors and they were significant at 1% level. For effective and comprehensive comparisons of all the six models used, we have also enclosed a plot of all our six models. Please refer to figure 1. As iterated, we see r(v) functions form all the six models yielding similarly shaped slopes. We were able to establish the monotonicity condition of $r(\v)$ to be satisfied for the two replication models as well under all the polynomial estimation cases for the range of values of v observed in the data.
+
+From the base paper, the log linear models establishes the change in value of land (variable: v) with unit change in land price (variable: pland). It calculates of slope to be $log(\v)$ as 0.909 and the intercept coefficient as -1.605. Upon replicating the same intentions through Generalized Log Linear Model, we get the slope to be 0.9186 and the intercept as -1.63. the slope and intercept coefficient from Gradient Descent Log Linear Model are 0.9184 and -1.6311 respectively. Thus, we observe similar performance in calculating the housing per unit of land from all of them. 
 
 ``` {r, echo = FALSE, message = FALSE, warnings = FALSE, results = 'asis'}
-library(knitr)
 table <- read.csv('./ReproducedTable.csv', header = T, na.strings = '__')
 colnames(table) = gsub("_", " ", colnames(table))
 table[is.na(table)]<- " "
 kable(table, caption = "Table")
+```
+
+``` {r my-fig, fig.cap = "Rplot_with_AllModel"}
+knitr::include_graphics("Rplot_with_AllModel.png")
 ```
 
 # Conclusion
