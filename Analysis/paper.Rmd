@@ -41,6 +41,8 @@ In the case of different loss function, we wrote a function code to implement lo
 
 The paper uses Ordinary Differential Equations for calculating the supply functions, $s(p)$. For this package 'odesolve' has been used in the base paper. Package ‘odesolve’ has been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same.
 
+The paper uses linear function in estimating the coefficients of alpha, beta and gamma in the HNIP estimator. The linear model is realized using Ordinary Least Squares (OLS) method. The estimator is replicated by replacing the OLS based linear function with a bayesian regression function. Bayesian linear regression is used because it is more flexible to further model development and can directly model posteriors of derived/calculated quantities. "Bolstad" package provides a bayes.lm function which has been used to complete the replication. Upon analysis, we can conclude that the the replicated estimator produced coefficients that are similiar to the actual paper. 
+
 
 # Results
 
