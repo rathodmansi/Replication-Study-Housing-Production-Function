@@ -38,6 +38,9 @@ In the case of different loss function, we wrote a function code to implement lo
 
 
 # Results
+
+The original paper had estimated the r(v) function which characterizes the relationship between the price of land and the value of housing per unit of land. Using OLS for log-linear, linear, quadratic and cubic models, it reports the estimates of the equilibrium locus.  We have enclosed the same in Table 1.  We have replicated the same results using gaussian log-linear model and gradient descent log linear model.  Results are enclosed in Table 2. For both of these two models, they fit the main features of the residential data substantially well and their performance is similar to the earlier four models. All the p-values were calculated using heteroskedasticity-robust standard errors and they were significant at 1% level. For effective and comprehensive comparisons of all the six models used, we have also enclosed a plot of all our six models. As iterated, we see r(v) functions form all the six models yielding similarly shaped production functions
+
 ``` {r, echo = FALSE, message = FALSE, warnings = FALSE, results = 'asis'}
 library(knitr)
 table <- read.csv('./ReproducedTable.csv', header = T, na.strings = '__')
