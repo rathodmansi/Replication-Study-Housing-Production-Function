@@ -27,10 +27,13 @@ The purpose of the paper is to do a replication of the paper "A New Approach to 
 
 
 # Methods
+
+The paper uses Ordinary Differential Equations for calculating the supply functions, $s(\p)$. For this package 'odesolve' has been used in the base paper. Package ‘odesolve’ has been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same.
+
 The current methodology provided by the author for estimating house price supply function uses parametric models. The author in the paper aims to establish a function $r(\nu)$ which relates land price $(p_l)$ and home value per unit land $(\nu)$. The parametric functions used for the purpose is OLS with different variations in it. The paper has used multiple transformation on data to produce linear, log linear and polynomial linear models to best identify the relation.
  
 Since, the function $r(\nu)$ forms the root of further analysis and calculation, it is imperative that we replicate the study of these models to test the robustness and the assumptions behind the models. 
-We decided two split the method of implementation in two direction. The first method is to use a different model for replication and the other is changing the loss function used in the model.
+We decided to split the method of implementation in two direction. The first method is to use a different model for replication and the other is changing the loss function used in the model.
  
 For the first case of different model, we decided use Generalized Linear Model with different distribution families. Using different families allows us to verify the condition of normality of error in the models used by authors. We noticed that the gaussian distribution family with log independent and dependent variable produced a line that fitted the best with the data and the corresponding coefficients were very similar to the log linear model used by the author.
 
