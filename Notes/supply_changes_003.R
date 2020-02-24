@@ -14,8 +14,8 @@ library(splines)
 ## library(odesolve) - This function is no longer maintained by CRAN
 library(deSolve)
 library(lokern)
+library(stargazer)
 source("./Notes/Gradient_Descent_001.R")
-
 #######################################################
 ### Read in the data
 #######################################################
@@ -81,7 +81,6 @@ glm.lin = glm(pland ~ v - 1)
 
 #Log Linear model using Gaussian Generalized Linear Model
 glm.loglin = glm(logpland ~ logv)
-
 #Log Linear model with a different Gradient Descent Loss Function
 thetaValues = gradientDescentLinearModel(logv, logpland, 0.1, 1000)
 

@@ -84,6 +84,42 @@ glm.loglin = glm(logpland ~ logv)
 #Log Linear model with a different Gradient Descent Loss Function
 #thetaValues = gradientDescentLinearModel(logv, logpland, 0.1, 1000)
 
+## ---Create-Coefficient-Table
+
+# table<- data.frame(matrix(ncol=7,nrow = 6))
+# namesOfColumn <- c("Coefficients","Log_Linear","Linear","Quadratic","Cubic",
+#                    "Gaussian_Generalized_Linear_Model",
+#                    "Gaussian_Generalized_Log_Linear_Model",
+#                    "Gradient_Descent_Log_Linear_Model")
+# colnames(table) <- namesOfColumn
+# table$Coefficients <- c("v", "v^2", "v^3", "constant", "log(v)", "N")
+# table[4,2] <- round(lm.loglin$coefficients[1],2)
+# table[5,2] <- round(lm.loglin$coefficients[2],2)
+# table[1,3] <- round(lm.lin$coefficients[1],2)
+# table[1,4] <- round(lm.quad$coefficients[1],2)
+# table[2,4] <- round(lm.quad$coefficients[2],5)
+# table[1,5] <- round(lm.cub$coefficients[1],2)
+# table[2,5] <- round(lm.cub$coefficients[2],5)
+# table[3,5] <- round(lm.cub$coefficients[3],2)
+# table[1,6] <- round(glm.lin$coefficients[1],2)
+# table[4,7] <- round(glm.loglin$coefficients[1],2)
+# table[5,7] <- round(glm.loglin$coefficients[2],2)
+# #table[4,8] <- round(thetaValues[1],2)
+# #table[5,8] <- round(thetaValues[2],2)
+# table[6,2:7] <- as.numeric(N)
+# View(table)
+
+stargazer(lm.loglin, lm.lin, lm.quad, lm.cub, glm.lin, glm.loglin, summary=FALSE, out = "file.out", type = "text")
+?stargazer
+# colnames(table) = gsub("_", " ", colnames(table))
+# table[is.na(table)]<- " "
+
+# table %>%
+#   stargazer(type ='text', summary = FALSE,
+#             digits =2,
+#             title = "Table 1 - Descriptive statistics of Residential data")
+
+
 ### Non-parametric estimation of r(v)
 
 gkern.deriv = glkerns(v, pland, deriv=1,n.out=300, hetero=TRUE,bandwidth=v.sd*1.1)
