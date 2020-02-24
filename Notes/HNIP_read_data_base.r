@@ -20,7 +20,7 @@ BASE.EQ.CONSTANT = FALSE
 #### (1) Read in the raw data
 
 # Just pland, v, and lotarea
-data = read.table("data.txt", header=T, sep=",")
+data = read.table("../Data/Pittsburgh_post1995.txt", header=T, sep=",")
 
 N = dim(data)[1]
 
