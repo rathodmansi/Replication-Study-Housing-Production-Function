@@ -73,14 +73,11 @@ The r(v) function replicated using bayesian regression is similear to the one es
 
 
 ``` {r, echo = FALSE, message = FALSE, warnings = FALSE, results = 'asis'}
-
 knitr::read_chunk('../Notes/001_supplyFunction.R')
-
-
 ```
 
 ```{r Create-Coefficient-Table}
-
+kable(s, caption = "Table")
 
 ```
 
@@ -90,8 +87,7 @@ knitr::include_graphics("Rplot_with_AllModel.png")
 
 # Conclusion
 
-We have discussed in the paper [@epple2010new] about how to estimate the production function for housing. In order to do, we have worked on calculating the estimation functions and supply functions. We encountered bit blockage in calculating the ordinary differential equations since [@epple2010new] calculated it using the now-obsolete ‘odesolve’ package. We were successful in replacing its dependencies with the ‘deSolve’ package. Since price and quantities for house are rarely observed individually, therefore we treated this two metrics as latent variables. Thus, we were able to calculate the production function without resorting to strong functional form assumptions. Of the three main functions: estimation, supply and production, we have replicated the first two functions with different linear model and loss functions. Compared to the four models used in [@epple2010new] our Gaussian Generalized Log Linear Model and Gradient Descent Log Linear Model had similar performance. The result is illustrated in Table 1. The main insight behind the approach is that the observed
-variation in land prices and housing values per unit of land is sufficient to identify the housing supply function per unit of land. Given the supply function per unit of land it is straightforward to recover the underlying production function. The production functions for housing plays an important role in conducting applied general equilibrium policy analysis. Many urban policies—such as school voucher programs, property tax reforms, urban development policies are likely to affect the demand for housing and residential sorting patterns.
+We have discussed in the paper [@epple2010new] about how to estimate the production function for housing. In order to do so, we have worked on calculating the estimation functions and supply functions. We encountered a bit of blockage in calculating the ordinary differential equations since the original paper by [@epple2010new] calculated it using the now-obsolete ‘odesolve’ package. We were successful in replacing its dependencies with the ‘deSolve’ package. Since price and quantities for house are rarely observed individually, therefore we treated this two metrics as latent variables. Thus, we were able to calculate the production function without resorting to strong functional form assumptions. Of the three main functions: estimation, supply and production, we have replicated the first two functions with different linear model and loss functions. Compared to the four models used in [@epple2010new] for estimating the $r(v)$, our Gaussian Generalized Log Linear Model and Gradient Descent Log Linear Model had similar performance. The result is illustrated in Table 1. The main insight behind the approach is that the observed variation in land prices and housing values per unit of land is sufficient to identify the housing supply function per unit of land. For estimating the supplyfunctions, we have replicated the results using Gaussian Generalized Log Linear Model.Given the supply function per unit of land it is straightforward to recover the underlying production function.The production functions for housing plays an important role in conducting applied general equilibrium policy analysis. Many urban policies—such as school voucher programs, property tax reforms, urban development policies are likely to affect the demand for housing and residential sorting patterns.
 
 # References
 
