@@ -69,10 +69,15 @@ The original paper had estimated the r(v) function which characterizes the relat
 From the base paper, the log linear models establishes the change in value of land (variable: v) with unit change in land price (variable: pland). It calculates of slope to be $log(\v)$ as 0.909 and the intercept coefficient as -1.605. Upon replicating the same intentions through Generalized Log Linear Model, we get the slope to be 0.9186 and the intercept as -1.63. the slope and intercept coefficient from Gradient Descent Log Linear Model are 0.9184 and -1.6311 respectively. Thus, we observe similar performance in calculating the housing per unit of land from all of them. 
 
 ``` {r, echo = FALSE, message = FALSE, warnings = FALSE, results = 'asis'}
-table <- read.csv('./ReproducedTable.csv', header = T, na.strings = '__')
-colnames(table) = gsub("_", " ", colnames(table))
-table[is.na(table)]<- " "
-kable(table, caption = "Table")
+
+knitr::read_chunk('../Notes/001_supplyFunction.R')
+
+
+```
+
+```{r Create-Coefficient-Table}
+
+
 ```
 
 ``` {r my-fig, fig.cap = "Rplot_with_AllModel"}
