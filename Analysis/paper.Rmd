@@ -9,8 +9,12 @@ bibliography: reference.bib
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warnings = FALSE}
+#Loading the libraries directly used in this Rmd
 library(knitr)
 library(tidyverse)
+library(here)
+library(stargazer)
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
@@ -18,11 +22,6 @@ knitr::opts_chunk$set(
   echo = FALSE,
   comment = "#>",
   fig.path = "../figures")
-
-#Loading the libraries directly used in this Rmd
-library(here)
-library(stargazer)
-library(tidyverse)
 
 #Reading the R scripts
 knitr::read_chunk('001-estimate-supply-production-function-ols.R')
@@ -168,7 +167,16 @@ Similarly,as seen in Figure \@ref(fig:production-function-estimation), we find t
 
 ```
 
-We were also able to replicate the supply and production functions with a 95% confidence interval band for GLM log-linear model as seen in Figure @\ref(fig:glm-production-func-confidence-band) and the plots are similar to the plots produced in the original paper.
+
+```{r original-supply-plot, fig.cap = "Log-Linear supply function with 95 % confidence band"}
+knitr::include_graphics("Log_linear_supply_func_plot.png")
+```
+
+```{r original-production-plot, fig.cap = "Log-Linear supply function with 95 % confidence band"}
+knitr::include_graphics("log_linear_production_function_plot.png")
+```
+
+We were also able to replicate the supply and production functions with a 95% confidence interval band for GLM log-linear model as seen in Figures \@ref(fig:glm-supply-func-confidence-band) and \@ref(fig:glm-production-func-confidence-band) and the plots are similar to the plots produced in the original paper, as seen in Figures \@ref(fig:original-supply-plot) and \@ref(fig:original-production-plot) .
 
 ### Replication of non-linear regressor estimation using HNIP
 
@@ -180,12 +188,12 @@ We were also able to replicate the supply and production functions with a 95% co
 
 ```
 
-The r(v) function replicated using bayesian regression for third order polynomial is similar to the one estimated in the original paper using OL based Linear Regression model. The original paper produced a mean of 0.1732, --0.0005 and 0.000004 for V, V^2 and V^3 coeffiecients respectively and the replicated bayesian model produced similar means of `r mean(beta.hat[,1])`,`r mean(beta.hat[,2])` and `r mean(beta.hat[,3])` as seen in Table 3.
+The $r(v)$ function replicated using bayesian regression for third order polynomial is similar to the one estimated in the original paper using OL based Linear Regression model. The original paper produced a mean of 0.1732, --0.0005 and 0.000004 for V, V^2 and V^3 coeffiecients respectively and the replicated bayesian model produced similar means of `r mean(beta.hat[,1])`,`r mean(beta.hat[,2])` and `r mean(beta.hat[,3])` as seen in Table 3.
 
 
 # Conclusion
 
-We have discussed in the paper [@epple2010new] about how to estimate the production function for housing. In order to do so, we have worked on calculating the estimation functions and supply functions. We encountered a bit of blockage in calculating the ordinary differential equations since the original paper by [@epple2010new] calculated it using the now-obsolete ‘odesolve’ package. We were successful in replacing its dependencies with the ‘deSolve’ package. Since price and quantities for house are rarely observed individually, we treated these two metrics as latent variables. Thus, we were able to calculate the production function without resorting to strong functional form assumptions. Of the three main functions: estimation, supply and production, we have replicated the first two functions with different linear model and loss functions. Compared to the four models used in [@epple2010new] for estimating the $r(v)$, our Gaussian Generalized Log Linear Model and Gradient Descent Log Linear Model had similar performance. The result is illustrated in Table 1. The main insight behind the approach is that the observed variation in land prices and housing values per unit of land is sufficient to identify the housing supply function per unit of land. For estimating the supplyfunctions, we have replicated the results using Gaussian Generalized Log Linear Model.Given the supply function per unit of land it is straightforward to recover the underlying production function.The production functions for housing plays an important role in conducting applied general equilibrium policy analysis. Many urban policies—such as school voucher programs, property tax reforms, urban development policies are likely to affect the demand for housing and residential sorting patterns.
+By introducing new models and removing outliers from the Allgheny residential data,we were able to successfully replicate the following key claims from the paper [@epple2010new] 1) by considering price and quantities as latent variables, the observed variation in land prices and housing values per unit of land is sufficient to identify the housing supply function per unit of land and 2) Given the supply function, the underlying production function for houing can be estimated, without strong functional form assumptions. While the team faced some difficlties during the replication process due to a couple of outdated pacakges, the codes and the data from the original paper performed as intended and made our replication study a lot easier. Compared to the models used in [@epple2010new] for estimating the $r(v)$, our Gaussian Generalized Log Linear Model and Gradient Descent Log Linear Model had similar performances and the Generalized log linear model had similar supply and production function estimates. 
 
 # References
 
