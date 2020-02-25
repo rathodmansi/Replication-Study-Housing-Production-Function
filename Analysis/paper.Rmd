@@ -1,10 +1,11 @@
 ---
-title: "[Re] A New Approach to Estimating the Production Function for Housing"
-author: "Aniruddha Dutta, Mansi Rathod, Mayur Gupta, Pradeep Prabhakar, Sreeja Vishaly Manohar"
+title: '[Re] A New Approach to Estimating the Production Function for Housing'
+author: Aniruddha Dutta, Mansi Rathod, Mayur Gupta, Pradeep Prabhakar, Sreeja Vishaly
+  Manohar
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: bookdown::word_document2
-bibliography: reference.bib
 link-citations: yes
+bibliography: reference.bib
 ---
 
 ``` {r setup, echo = FALSE, message = FALSE, warnings = FALSE}
@@ -18,8 +19,14 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "../figures")
 
+#Loading the libraries directly used in this Rmd
 library(here)
 library(stargazer)
+library(tidyverse)
+
+#Reading the R scripts
+knitr::read_chunk('001-estimate-supply-production-function-ols.R')
+knitr::read_chunk('002-HNIP-estimator.R')
 ```
 
 A reference implementation of:
@@ -38,7 +45,7 @@ The current methodology provided by the author for estimating house price supply
 Since, the function $r(\nu)$ forms the root of further analysis and calculation, it is imperative that we replicate the study of these models to test the robustness and the assumptions behind the models. 
 We decided to split the method of implementation in two direction. The first method is to use a different model for replication and the other is changing the loss function used in the model.
  
-For the first case of different model, we decided use Generalized Linear Model with different distribution families. Using different families allows us to verify the condition of normality of error in the models used by authors. We noticed that the gaussian distribution family with log independent and dependent variable produced a line that fitted the best with the data and the corresponding coefficients were very similar to the log linear model used by the author.
+For the first case of different model, we decided to use Generalized Linear Model with different distribution families. Using different families allows us to verify the condition of normality of error in the models used by authors. We noticed that the gaussian distribution family with log independent and dependent variable produced a line that fitted the best with the data and the corresponding coefficients were very similar to the log linear model used by the author.
 
 In the case of different loss function, we wrote a function code to implement log linear regression with gradient descent loss function. The gradient descent loss function provides a more flexible approach because of the presence of hyperparameters *learning rate* and *number of iteration*. The author of the paper has not explored this methodology, therefore we had no information about the value of hyperparameters *learning rate* and *number of iteration*, therefore we ran a simulation study to determine the hyperparameters that delivered values of coefficients very similar to that of the models used by the author
 
@@ -49,12 +56,13 @@ The paper uses Ordinary Differential Equations for calculating the supply functi
 
 ## Data
 
-The dataset used by the paper [@epple2010new] comes from Allegheny County Web site (Pennsylvania state) maintained by the Office of Property assessments, which is based on the appraisals conducted by Sabre Systems and uses land value appraisals as well as property appraisals. Using geocoding, property assignment to travel zones and subsetting only for functioning residential properties, the count came down to 358,677 properties. Of these properties,the authors used a subsample of housing units that were built after 1995 for the estimation procedure which was 6362 houses. The data captures some important metrics for the houses such as the price of land, value per unit land, plot area, travel time and its geo-location (latitude and longitude). We will be using the same data for our replication in this paper. The descriptive statistics of the dataset with 6362 residential properties is shown below.
+The dataset used by the paper [@epple2010new] comes from Allegheny County Web site (Pennsylvania state) maintained by the Office of Property assessments, which is based on the appraisals conducted by Sabre Systems and uses land value appraisals as well as property appraisals. Using geocoding, property assignment to travel zones and subsetting only for functioning residential properties, the count came down to 358,677 properties. Of these properties,the authors used a subsample of housing units that were built after 1995 for the estimation procedure which was 6362 houses. The data captures some important metrics for the houses such as the price of land, value per unit land, plot area, travel time and its geo-location (latitude and longitude). We will be using the same data for our replication in this paper. The descriptive statistics of the dataset with 6362 residential properties is shown in Table 1.
 
-```{r word_table, comment = ''}
+```{r}
+
 data = read.csv(here("Data/Pittsburgh_post1995.txt"), header=TRUE)
 data %>% select(v,pland,lotarea,tcog) %>%
-  stargazer(type ='text',summary.stat = c('mean','median','sd','min','max'),
+  stargazer(type = "text",summary.stat = c('mean','median','sd','min','max'),
             covariate.labels = c("Value per unit of land, v", "Price of land, p", "Lot area (sq. ft.)","Travel time (minutes)"),
             digits =2,
             title = "Table 1 - Descriptive statistics of Residential data")
@@ -62,32 +70,122 @@ data %>% select(v,pland,lotarea,tcog) %>%
 
 
 
-
 # Results
 
-The original paper had estimated the r(v) function which characterizes the relationship between the price of land and the value of housing per unit of land. Using OLS for log-linear, linear, quadratic and cubic models, it reports the estimates of the equilibrium locus. We have replicated the same results using gaussian log-linear model and gradient descent log linear model.  Results are enclosed in Table 1. For both of these two models, they fit the main features of the residential data substantially well and their performance is similar to the earlier four models. All the p-values were calculated using heteroskedasticity-robust standard errors and they were significant at 1% level. For effective and comprehensive comparisons of all the six models used, we have also enclosed a plot of all our six models. Please refer to figure 1. As iterated, we see r(v) functions form all the six models yielding similarly shaped slopes. We were able to establish the monotonicity condition of $r(\v)$ to be satisfied for the two replication models as well under all the polynomial estimation cases for the range of values of v observed in the data.
+For our replication study, we have the results for the following variants introduced in the original paper:  
+1. Excluded the top 1 and bottom 1 percentile records from the residential data based on value of unit per land. This is based on the claims by the author that the results were robust to the presence of extreme values.  
+2. Added two models to the OLS based estimates- GLM log-linear model and a log-linear model based on gradient descent loss function.  
+3. Replicated the supply and production function estimates for generalized log-linear model along with the original models.  
+4. Replicated the plots of supply function and production function with 95% CI bands for the generalized log-linear model  
+5. Replicated the instrumental variable estimator model(suggested by Hausman, Newey, Ichimura, and Powell (Journal of Econometrics, 1991) estimates based on least squares using Bayesian regression
 
-From the base paper, the log linear models establishes the change in value of land (variable: v) with unit change in land price (variable: pland). It calculates of slope to be $log(\v)$ as 0.909 and the intercept coefficient as -1.605. Upon replicating the same intentions through Generalized Log Linear Model, we get the slope to be 0.9186 and the intercept as -1.63. the slope and intercept coefficient from Gradient Descent Log Linear Model are 0.9184 and -1.6311 respectively. Thus, we observe similar performance in calculating the housing per unit of land from all of them.
-
-The r(v) function replicated using bayesian regression is similear to the one estimated in the original paper using OL based Linear Regression. The original paper produced a mean of 0.192999, -0.001682 and 0.000012 and standard deviation of 0.014704, 0.014704 and 0.000005 for V, V^2 and V^3 coeffiecients respectively. The replicated bayesian model produced a mean of 0.192481,-0.001661 and 0.000012, and standard deviation of 0.014845, 0.000579 and 9 5.0e-06 respectively. this proves that the replicated bayesian model produced outputs similar to the original paper.
-
-
-``` {r, echo = FALSE, message = FALSE, warnings = FALSE, results = 'asis'}
-knitr::read_chunk('../Notes/001_supplyFunction.R')
-```
-
-```{r Create-Coefficient-Table}
-kable(s, caption = "Table")
+```{r load-the-libraries}
 
 ```
 
-``` {r my-fig, fig.cap = "Rplot_with_AllModel"}
-knitr::include_graphics("Rplot_with_AllModel.png")
+```{r read-the-data, results='hide'}
+
 ```
+
+```{r}
+# Define the squared error cost function	
+cost <- function(X, y, theta) {
+  sum( (X %*% theta - y)^2 ) / (2*length(y))
+}
+
+#Gradient descent model function
+gradientDescentLinearModel <- function(x, y, alpha, num_iters){
+   
+   alpha <- alpha # Specify the learning rate
+   num_iters <- num_iters # Specify the number of iterations
+   cost_history <- rep(0,num_iters) # will be used to store the value of cost function after
+   # every iteration 
+   theta_history <- list(num_iters) # will be used to store the value of theta after every 
+   # iteration 
+   theta <-  c(0,0) # Initial values of theta
+   X <- cbind(1,x) # Add a column vector with all values  to be 1 to x so that hypothesis 
+   # function has an intercept 
+   for (i in 1:num_iters) {
+      theta[1] <- theta[1] - alpha * (1/length(y)) * sum(((X%*%theta)- y))
+      theta[2] <- theta[2] - alpha * (1/length(y)) * sum(((X%*%theta)- y)*X[,2])
+      cost_history[i] <- cost(X, y, theta)
+      theta_history[[i]] <- theta
+   } 
+   return(theta)
+}
+#Prediction function for the model
+calculatePredictionValues <- function(x, y, slope, intercept){
+   y <- slope * x + intercept
+   return(y)
+}
+
+```
+
+
+### Regression estimates and plots
+
+The original paper estimates the r(v) functions using OLS for log-linear, linear, quadratic and cubic models. We obtained similar results using gaussian log-linear model and gradient descent log linear model in addition to the four models. For both of these two models, they fit the main features of the residential data substantially well and their performance is similar to the earlier four models. All the p-values were calculated using heteroskedasticity-robust standard errors and they were significant at 1% level. 
+
+```{r estimate-the-regressions, fig.cap= "Estimates of equilibrium locus"}
+
+```
+
+As observed in Table 2, while the base paper had slope to be $log(v)$ as 0.909 and the intercept coefficient as -1.605 for the log-linear model, we obtained similar results with (0.919,-1.632) and (0.918,-1.631) as (slope, intercept) for our GLM model and gradient descent models respectively.
+
+```{r plot-the-fitted-models, fig.cap= "Plot of fitted models"}
+
+```
+
+
+For effective comparison of all the six models used, we have also enclosed a plot as seen in Figure \@ref(fig:plot-the-fitted-models). We find all the models to fit the data very well. We were able to establish the monotonicity condition of $r(v)$ to be satisfied for the two replication models as well under all the polynomial estimation cases for the range of values of v observed in the data.
+
+### Supply and production function plots
+
+```{r derive-supply-functions-for-each-model, fig.cap="Supply functions by model"}
+
+```
+
+As seen in Figure \@ref(fig:derive-supply-functions-for-each-model), we find that the supply functions are relatively similar for all the original models and we were able to replicate similar results for the GLM log-linear model.
+
+```{r production-function-estimation, fig.cap="Production functions by model"}
+
+```
+
+Similarly,as seen in Figure \@ref(fig:production-function-estimation), we find that the production functions are similar for all the original models and we were able to replicate similar results for the GLM log-linear model.
+
+
+### Replication of supply and production functions with 95% confidence band for GLM Log-linear model
+
+```{r simulate-supply-and-production-functions-to-calcalate-standard-errors}
+
+```
+
+```{r glm-supply-func-confidence-band, fig.cap= "Generalized log-linear supply function with 95 % confidence band"}
+
+```
+
+```{r glm-production-func-confidence-band, fig.cap= "Generalized log-linear supply function with 95 % confidence band"}
+
+```
+
+We were also able to replicate the supply and production functions with a 95% confidence interval band for GLM log-linear model as seen in Figure @\ref(fig:glm-production-func-confidence-band) and the plots are similar to the plots produced in the original paper.
+
+### Replication of non-linear regressor estimation using HNIP
+
+```{r hnip-estimator-function}
+
+```
+
+```{r hnip-estimator-call}
+
+```
+
+The r(v) function replicated using bayesian regression for third order polynomial is similar to the one estimated in the original paper using OL based Linear Regression model. The original paper produced a mean of 0.1732, --0.0005 and 0.000004 for V, V^2 and V^3 coeffiecients respectively and the replicated bayesian model produced similar means of `r mean(beta.hat[,1])`,`r mean(beta.hat[,2])` and `r mean(beta.hat[,3])` as seen in Table 3.
+
 
 # Conclusion
 
-We have discussed in the paper [@epple2010new] about how to estimate the production function for housing. In order to do so, we have worked on calculating the estimation functions and supply functions. We encountered a bit of blockage in calculating the ordinary differential equations since the original paper by [@epple2010new] calculated it using the now-obsolete ‘odesolve’ package. We were successful in replacing its dependencies with the ‘deSolve’ package. Since price and quantities for house are rarely observed individually, therefore we treated this two metrics as latent variables. Thus, we were able to calculate the production function without resorting to strong functional form assumptions. Of the three main functions: estimation, supply and production, we have replicated the first two functions with different linear model and loss functions. Compared to the four models used in [@epple2010new] for estimating the $r(v)$, our Gaussian Generalized Log Linear Model and Gradient Descent Log Linear Model had similar performance. The result is illustrated in Table 1. The main insight behind the approach is that the observed variation in land prices and housing values per unit of land is sufficient to identify the housing supply function per unit of land. For estimating the supplyfunctions, we have replicated the results using Gaussian Generalized Log Linear Model.Given the supply function per unit of land it is straightforward to recover the underlying production function.The production functions for housing plays an important role in conducting applied general equilibrium policy analysis. Many urban policies—such as school voucher programs, property tax reforms, urban development policies are likely to affect the demand for housing and residential sorting patterns.
+We have discussed in the paper [@epple2010new] about how to estimate the production function for housing. In order to do so, we have worked on calculating the estimation functions and supply functions. We encountered a bit of blockage in calculating the ordinary differential equations since the original paper by [@epple2010new] calculated it using the now-obsolete ‘odesolve’ package. We were successful in replacing its dependencies with the ‘deSolve’ package. Since price and quantities for house are rarely observed individually, we treated these two metrics as latent variables. Thus, we were able to calculate the production function without resorting to strong functional form assumptions. Of the three main functions: estimation, supply and production, we have replicated the first two functions with different linear model and loss functions. Compared to the four models used in [@epple2010new] for estimating the $r(v)$, our Gaussian Generalized Log Linear Model and Gradient Descent Log Linear Model had similar performance. The result is illustrated in Table 1. The main insight behind the approach is that the observed variation in land prices and housing values per unit of land is sufficient to identify the housing supply function per unit of land. For estimating the supplyfunctions, we have replicated the results using Gaussian Generalized Log Linear Model.Given the supply function per unit of land it is straightforward to recover the underlying production function.The production functions for housing plays an important role in conducting applied general equilibrium policy analysis. Many urban policies—such as school voucher programs, property tax reforms, urban development policies are likely to affect the demand for housing and residential sorting patterns.
 
 # References
 
