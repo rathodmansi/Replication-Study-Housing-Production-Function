@@ -22,7 +22,7 @@ The paper for the replication study was found at the *[American Economic Associa
 ### Dependencies:
 For our project, we had to install two package ‘MASS’ and 'Bolstad' . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
 
-Packages ‘odesolve’ and 'R.basic' which were used in the base paper have been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same. R.basic can be installed from [this](http://www.braju.com/R/repos/) repository as shown below. 
+Packages ‘odesolve’ and 'R.basic' which were used in the base paper have been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same. R.basic can be installed from [this](http://www.braju.com/R/repos/) repository as shown below. \
 install.packages(c("R.basic"), contriburl="http://www.braju.com/R/repos/")
 
 <pre>
