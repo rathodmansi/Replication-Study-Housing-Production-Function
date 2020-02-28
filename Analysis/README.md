@@ -1,1 +1,1 @@
-Contains the codes and relevant analysis reports for the replication study
+Contains the codes, the target figures, the original figures and the final report for the replication study
