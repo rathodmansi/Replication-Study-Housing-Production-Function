@@ -95,7 +95,6 @@ stargazer(lm.loglin, lm.lin, lm.quad, lm.cub, glm.loglin,
           type = "text",
           column.labels = c('Log-Linear','Linear','Quadratic','Cubic','Generalized-Log-Linear'),
           keep.stat = c('n'),
-          align = TRUE, 
           dep.var.labels.include =FALSE,
           dep.var.caption  = "OLS and GLM estimates",
           model.names = FALSE, model.numbers = FALSE,
@@ -150,8 +149,9 @@ regs = data.frame("Log-Linear"=lm.loglin$fitted.values, "Linear"=log(lm.lin$fitt
                   'Grad.des.LLM'=predictedValuesGD)
 
 matplot(cbind(logv,logv,logv,logv,logv,logv,logv), regs, col=1:ncol(regs), lty=1:ncol(regs),lwd=c(2,2,2,2), type="l",
-        main="Fitted Regressions for r(v)", xlab="Value per unit of land", ylab="Price of land", xlim=c(-0.5,5), ylim=c(-2.2,3.5))
-legend(3.1, 0.9, names(regs), col=1:ncol(regs), lty=1:ncol(regs), cex = 0.8)
+        main="Fitted Regressions for r(v)", xlab="Value per unit of land", ylab="Price of land", xlim=c(-0.5,5), ylim=c(-2.2,3.5),
+        cex.main = 0.9,cex.lab = 0.9,cex.axis =0.9)
+legend(3.1, 0.9, names(regs), col=1:ncol(regs), lty=1:ncol(regs), cex = 0.75)
 
 
 
@@ -231,8 +231,9 @@ s.kern.range = range(s.kern$s*s.kern$p)
 sglm.loglin.range = range(sglm.loglin*pgrid)
 
 matplot(s.funcs,p.grids,col=1:ncol(s.funcs), lty=1:ncol(s.funcs),lwd=c(2,2,2,2), type="l",
-        main="Supply Functions", xlab="Supply", ylab="Price",xlim=c(0,39))
-legend(20, 1.6, names(s.funcs), col=1:ncol(s.funcs), lty=1:ncol(s.funcs),cex = 0.9)
+        main="Supply Functions", xlab="Supply", ylab="Price",xlim=c(0,39),
+        cex.main = 0.9,cex.lab = 0.9,cex.axis =0.9)
+legend(20, 1.6, names(s.funcs), col=1:ncol(s.funcs), lty=1:ncol(s.funcs),cex = 0.75)
 
 
 ## ----production-function-estimation------
@@ -267,12 +268,13 @@ prod.funcs = data.frame("Log-Linear"=s.loglin,"Linear"=s.lin,"Quadratic"=s.quad,
 m.grids = cbind(m.loglin, m.lin, m.quad, m.cub,m.kernel,m.glmloglin)
 
 matplot(m.grids,prod.funcs, col=1:ncol(prod.funcs), lty=1:ncol(prod.funcs),lwd=c(2,2,2,2), type="l",
-        main="Production Functions", xlab="m = (M/L)", ylab="Output", xlim=c(0,80), ylim=c(0,50))
-legend(50, 26, names(prod.funcs), col=1:ncol(prod.funcs), lty=1:ncol(prod.funcs),cex=0.9)
+        main="Production Functions", xlab="m = (M/L)", ylab="Output", xlim=c(0,80), ylim=c(0,50),
+        cex.main = 0.9,cex.lab = 0.9,cex.axis =0.9)
+legend(50, 26, names(prod.funcs), col=1:ncol(prod.funcs), lty=1:ncol(prod.funcs),cex=0.75)
 
 
 
-## ----simulate-supply-and-production-functions-to-calcalate-standard-errors-----
+## ----simulate-supply-and-production-functions-to-calculate-standard-errors-----
 
 sup.loglin = function(grid,parms){
   alpha = as.numeric(exp(parms[1])*parms[2])
@@ -350,13 +352,15 @@ prod.glmloglin.ub = sglm.loglin + 2*sim.glmfuncs$p.sd
 
 ## ----glm-supply-func-confidence-band----
 plot(log(sglm.loglin),log(pgrid),type="l",main="GLM-Log-linear Supply Function with \n 95% Confidence Band",
-     xlab="log(Supply)",ylab="log(Price)", xlim=c(0,log(40)), lwd=2,cex.main = 1)
+     xlab="log(Supply)",ylab="log(Price)", xlim=c(0,log(40)), lwd=2,
+     cex.main = 0.9,cex.lab = 0.9,cex.axis =0.9)
 lines(log(s.glmloglin.lb),log(pgrid),col="red",lty=2)
 lines(log(s.glmloglin.ub),log(pgrid),col="red",lty=2)
 
 ## ----glm-production-func-confidence-band----
 plot(log(m.glmloglin),log(sglm.loglin), type="l",main="GLM-Log-linear Production Function with \n 95% Confidence Band",
-     xlab="log(m)",ylab="log(q)", xlim=c(0,log(80)), lwd=2,cex.main = 1)
+     xlab="log(m)",ylab="log(q)", xlim=c(0,log(80)), lwd=2,
+     cex.main = 0.9,cex.lab = 0.9,cex.axis =0.9)
 lines(log(m.glmloglin), log(prod.glmloglin.ub), col="red",lty=2)
 lines(log(m.glmloglin), log(prod.glmloglin.lb), col="red",lty=2)
 
