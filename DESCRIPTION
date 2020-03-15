@@ -9,6 +9,7 @@ Authors@R: c(
            person("Prabhakar", "Pradeep", email = "prdp1992@uw.edu", role = c("aut","cre"), comment = c(ORCID = "0000-0001-6202-5607")),
            person("Vishaly", "Sreeja", email = "sreejavm@uw.edu", role = c("aut"), comment = c(ORCID = "0000-0002-7566-5336")))
 Description: The package replicates key tables and figures of the target paper that is considered for the final project for DATA 598A
+URL: https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
