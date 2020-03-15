@@ -2,7 +2,7 @@
 
 ### Contents:
 
-The project focuses on new housing construction in Allegheny county in Pennsylvania, which contains the metropolitan area of Pittsburgh. The city of Pittsburgh used a two rate property taxation system from 1913-2001. The data comes from the Allegheny County Web site, which is maintained by the Office of Property Assessments. The Web site provides access to a database with detailed information about all properties, both residential and commercial, in the entire county. The complete database lists 561,174 properties.
+The project focuses on new housing construction in Allegheny county in Pennsylvania, which contains the metropolitan area of Pittsburgh. The city of Pittsburgh used a two rate property taxation system from 1913-2001. The data comes from the Allegheny County Web site, which is maintained by the Office of Property Assessments. The Web site provides access to a database with detailed information about all properties, both residential and commercial, in the entire county. The complete database lists 561,174 properties. This is not a commercial data as it only lists the properties by a numerical property ID and does not contain any identifiable information about its owners.
 
 ### Data:
 1.	Pittsburgh_post1995.txt:
