@@ -6,8 +6,6 @@ MAINTAINER Pradeep Prabhakar <prdp1992@uw.edu>
 
 COPY . /Re.Estimating.Production.function.for.housing
 
-RUN R -e "install.packages('deSolve',dependencies = T)"
-
 # go into the repo directory
 RUN . /etc/environment \
   # Install linux depedendencies here
