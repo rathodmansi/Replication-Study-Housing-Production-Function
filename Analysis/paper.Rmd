@@ -127,7 +127,7 @@ calculatePredictionValues <- function(x, y, slope, intercept){
 ### Regression estimates and plots
 
 ```{r original-coef-table, fig.cap = "Estimates of equilibrium locus[@epple2010new]"}
-knitr::include_graphics("Estimate_coeff_table.png")
+knitr::include_graphics("Estimate_coeff_table.PNG")
 ```
 
 The original paper estimates the r(v) functions using OLS for log-linear, linear, quadratic and cubic models. We obtained similar results using gaussian log-linear model and gradient descent log linear model in addition to the four models. For both of these two models, they fit the main features of the residential data substantially well and their performance is similar to the earlier four models. All the p-values were calculated using heteroskedasticity-robust standard errors and they were significant at 1% level. 
@@ -162,11 +162,11 @@ As seen in Figures \@ref(fig:derive-supply-functions-for-each-model) and \@ref(f
 ### Supply and production functions with 95% confidence band for GLM Log-linear model
 
 ```{r original-supply-plot, fig.cap = "Log-Linear supply function with 95 % confidence band[@epple2010new]",out.width ="450px"}
-knitr::include_graphics("supply_f_plot_orig.png")
+knitr::include_graphics("supply_f_plot_orig.PNG")
 ```
 
 ```{r original-production-plot, fig.cap = "Log-Linear production function with 95 % confidence band[@epple2010new]",out.width="450px"}
-knitr::include_graphics("prod_f_plot_orig.png")
+knitr::include_graphics("prod_f_plot_orig.PNG")
 ```
 
 Using simulation, standard errors are calculated based on which the corresponding 95% confidence interval bands are estimated for the supply and production functions of GLM Log-Linear model.
