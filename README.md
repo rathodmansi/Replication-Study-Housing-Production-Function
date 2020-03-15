@@ -24,7 +24,7 @@ Estimating housing production functions is challenging, as the quantity and pric
 Epple, Dennis, Brett Gordon, and Holger Sieg. 2010. *"A New Approach to Estimating the Production Function for Housing."* American Economic Review, 100 (3): 905-24.DOI: 10.1257/aer.100.3.905
 
 ### Data:
-The paper for the replication study was found at the *[American Economic Association](https://www.aeaweb.org/articles?id=10.1257/aer.100.3.905)* and the data was obtained from the *[Open ICPSR](https://www.openicpsr.org/openicpsr/project/112360/version/V1/view)* in the form of text files. The data describes the residential and commercial real estate in Allegheny County in Pennsylvania post 1995 <br/>
+The paper for the replication study was found at the *[American Economic Association](https://www.aeaweb.org/articles?id=10.1257/aer.100.3.905)* and the data was obtained from the *[Open ICPSR](https://www.openicpsr.org/openicpsr/project/112360/version/V1/view)* in the form of text files. The data describes the residential and commercial real estate in Allegheny County in Pennsylvania post 1995. This is not a commercial data. <br/>
 
 ### Dependencies:
 For our project, we had to install two packages 'MASS' and 'Bolstad' . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
