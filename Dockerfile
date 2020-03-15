@@ -6,6 +6,8 @@ MAINTAINER Pradeep Prabhakar <prdp1992@uw.edu>
 
 COPY . /Re.Estimating.Production.function.for.housing
 
+RUN R -e "install.packages('Bolstad',dependencies = T)"
+
 # go into the repo directory
 RUN . /etc/environment \
   # Install linux depedendencies here
@@ -14,7 +16,6 @@ RUN . /etc/environment \
   && sudo apt-get install libudunits2-dev -y \
   # build this compendium package
   && R -e "devtools::install('/Re.Estimating.Production.function.for.housing', dep=TRUE)" \
-  && R -e "install.packages('Bolstad', dependencies = T)"
   # render the manuscript into a docx, you'll need to edit this if you've
   # customised the location and name of your main Rmd file
   && R -e "rmarkdown::render('/Re.Estimating.Production.function.for.housing/Analysis/paper.Rmd')"
