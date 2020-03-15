@@ -24,8 +24,7 @@ knitr::opts_chunk$set(
   echo = FALSE,
   comment = "#>",
   fig.width = 7,
-  fig.height = 4.5,
-  fig.path = "figures")
+  fig.height = 4.5)
 
 
 
@@ -163,11 +162,11 @@ As seen in Figures \@ref(fig:derive-supply-functions-for-each-model) and \@ref(f
 ### Supply and production functions with 95% confidence band for GLM Log-linear model
 
 ```{r original-supply-plot, fig.cap = "Log-Linear supply function with 95 % confidence band[@epple2010new]",out.width ="450px"}
-knitr::include_graphics("Log_linear_supply_func_plot.png")
+knitr::include_graphics("supply_f_plot_orig.png")
 ```
 
 ```{r original-production-plot, fig.cap = "Log-Linear production function with 95 % confidence band[@epple2010new]",out.width="450px"}
-knitr::include_graphics("log_linear_production_function_plot.png")
+knitr::include_graphics("prod_f_plot_orig.png")
 ```
 
 Using simulation, standard errors are calculated based on which the corresponding 95% confidence interval bands are estimated for the supply and production functions of GLM Log-Linear model.
