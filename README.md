@@ -28,11 +28,11 @@ The paper for the replication study was found at the *[American Economic Associa
 ### Dependencies:
 For our project, we had to install two package â€˜MASSâ€™ and 'Bolstad' . Below is the complete list of our system requirements for the project and also the packages critical for our replication purpose.
 
-Packages â€˜odesolveâ€™ and 'R.basic' which were used in the base paper have been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same. R.basic can be installed from [this](http://www.braju.com/R/repos/) repository as shown below. \
+Packages ‘odesolve’ and 'R.basic' which were used in the base paper have been removed from the CRAN repository. The more recent package 'deSolve' completely supersedes odesolve and we have installed the same. R.basic can be installed from [this](http://www.braju.com/R/repos/) repository as shown below. \
 install.packages(c("R.basic"), contriburl="http://www.braju.com/R/repos/")
 
 <pre>
-â”€ Session info â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+─ Session info ───────────────────────────────────────────────────
  setting  value                       
  version  R version 3.6.2 (2019-12-12)
  os       macOS Mojave 10.14.6        
@@ -45,7 +45,7 @@ install.packages(c("R.basic"), contriburl="http://www.braju.com/R/repos/")
  date     2020-02-21                  
 </pre>
 <pre>
-â”€ Packages â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+─ Packages ───────────────────────────────────────────────────────
  package     * version  date       lib source        
  assertthat    0.2.1    2019-03-21 [1] CRAN (R 3.6.0)
  backports     1.1.5    2019-10-02 [1] CRAN (R 3.6.0)
