@@ -20,7 +20,7 @@
 ### Archival Copy
 
 An archival copy of this project is stored on osf.io  
-DOI: https://doi.org/10.17605/OSF.IO/FG9ZTN
+DOI: https://doi.org/10.17605/OSF.IO/G9ZTN
 
 ### Contents:
 
