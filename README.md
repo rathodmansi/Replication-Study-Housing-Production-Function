@@ -104,7 +104,7 @@ install.packages(c("R.basic"), contriburl="http://www.braju.com/R/repos/")
 
 ### Licenses:
 
-This replication project is licensed under the terms of the [MIT license] (https://github.com/UW-MSDS-DATA-598-Reproducibility-WI20/dutta-gupta-manohar-prabhakar-rathod-replication-project/blob/master/LICENSE.md)
+This replication project is licensed under the terms of the [MIT license](https://github.com/UW-MSDS-DATA-598-Reproducibility-WI20/dutta-gupta-manohar-prabhakar-rathod-replication-project/blob/master/LICENSE.md)
 
 ### Contributing:
 We welcome contributions from everyone. Before you get started, please see our contributor guidelines. Please note that this project is released with a [Contributor Code of Conduct](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its [terms](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/blob/master/CONTRIBUTING.md).
