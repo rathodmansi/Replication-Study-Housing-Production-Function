@@ -2,9 +2,9 @@
 ## A replication study to estimate the production function for housing
 
 <!-- badges: start -->
-[![Launch Rstudio Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/master?urlpath=rstudio)
-[![R build status](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/workflows/R-CMD-check/badge.svg)](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/actions)
-[![Docker build](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/workflows/Docker-build/badge.svg)](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/actions)
+[![Launch Rstudio Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UW-MSDS-DATA-598-Reproducibility-WI20/dutta-gupta-manohar-prabhakar-rathod-replication-project/master?urlpath=rstudio)
+[![R build status](https://github.com/UW-MSDS-DATA-598-Reproducibility-WI20/dutta-gupta-manohar-prabhakar-rathod-replication-project/workflows/R-CMD-check/badge.svg)](https://github.com/UW-MSDS-DATA-598-Reproducibility-WI20/dutta-gupta-manohar-prabhakar-rathod-replication-project/actions)
+[![Docker build](https://github.com/UW-MSDS-DATA-598-Reproducibility-WI20/dutta-gupta-manohar-prabhakar-rathod-replication-project/workflows/Docker-build/badge.svg)](https://github.com/UW-MSDS-DATA-598-Reproducibility-WI20/dutta-gupta-manohar-prabhakar-rathod-replication-project/actions)
 [![DOI](https://img.shields.io/badge/OSF-DOI%3A%2010.17605%2FOSF.IO%2FG9ZTN-brightgreen)](https://osf.io/g9ztn/)
 <!-- badges: end -->
 
