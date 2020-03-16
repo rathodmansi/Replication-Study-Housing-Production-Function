@@ -3,8 +3,7 @@
 
 <!-- badges: start -->
 [![Launch Rstudio Binder](http://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/master?urlpath=rstudio)
-[![R build status](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/workflows/R-CMD-check/badge.svg)](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/actions)
-[![Docker build](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/workflows/docker-build/badge.svg)](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/actions)
+[![Docker build](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/workflows/Docker-build/badge.svg)](https://github.com/ReplicationStudy/ReplicationStudyToEstimatePFforHousing/actions)
 [![DOI](https://img.shields.io/badge/OSF-DOI%3A%2010.17605%2FOSF.IO%2Fxxxx-brightgreen)](https://osf.io/g9ztn/)
 <!-- badges: end -->
 
