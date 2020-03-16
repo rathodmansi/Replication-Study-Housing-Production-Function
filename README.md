@@ -17,6 +17,11 @@
 4. [Pradeep Prabhakar](https://github.com/Pradeepprabhakar92) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0001-6202-5607) 
 5. [Sreeja Vishaly Manohar](https://github.com/Sreejavm) [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-7566-5336 )
 
+### Archival Copy
+
+An archival copy of this project is stored on osf.io  
+DOI: https://doi.org/10.17605/OSF.IO/FG9ZTN
+
 ### Contents:
 
 The purpose of this repository is for the team to collaborate on a replication study for the DATA 598 A course and will contain all the work required for the project check-ins and the final submission. The aim of the project is to replicate a key scientific claim of one of the papers published in the American Economic Review that estimates the production function for housing. Based on two factors - the observed variation in land prices and housing values per unit of land, the paper has provided an algorithm to identify the housing supply function per unit of land. This in turn is used to derive an estimate of the underlying production function. The approach yielded plausible estimates for the price elasticity of housing supply per unit of land, based on data from Allegheny County in Pennsylvania. For the project, the team wishes to replicate the figures that plots the estimates of the supply function and the production function. \
